@@ -62,20 +62,36 @@
     var params = new URLSearchParams(location.search);
     if (params.get('q')) q.value = params.get('q');
     if (params.get('coleccion')) col = params.get('coleccion');
+    function puntaje(f, t) {
+      // Más alto = más arriba: título > autor > datos de la ficha > texto completo
+      var p = 0, tit = f.dataset.titulo, aut = f.dataset.autor || '', fic = f.dataset.texto, cue = f.dataset.cuerpo || '';
+      for (var i = 0; i < t.length; i++) {
+        var w = t[i];
+        if (tit === w) p += 100; else if (tit.indexOf(w) === 0) p += 60; else if (tit.indexOf(w) > -1) p += 40;
+        else if (aut.indexOf(w) > -1) p += 25;
+        else if (fic.indexOf(w) > -1) p += 15;
+        else if (cue.indexOf(w) > -1) p += 5;
+        else return 0;
+      }
+      return p;
+    }
     function filtrar() {
       var t = norm(q.value).split(/\s+/).filter(Boolean), m = selMun ? selMun.value : '', a = selAnio ? selAnio.value : '';
       var n = 0;
       fichas.forEach(function (f) {
-        var ok = (!col || f.dataset.col === col) && (!m || f.dataset.mun === m) && (!a || f.dataset.anio === a) && t.every(function (p) { return f.dataset.texto.indexOf(p) > -1; });
+        f._p = t.length ? puntaje(f, t) : 1;
+        var ok = f._p > 0 && (!col || f.dataset.col === col) && (!m || f.dataset.mun === m) && (!a || f.dataset.anio === a);
         f.hidden = !ok; if (ok) n++;
       });
+      ordenar(t.length > 0);
       cont.textContent = n + (n === 1 ? ' ficha' : ' fichas');
       vacio.hidden = n > 0;
       $$('.chip[data-col]', arch).forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.col === col ? 'true' : 'false'); });
     }
-    function ordenar() {
+    function ordenar(porRelevancia) {
       var o = selOrden.value;
-      fichas.sort(function (x, y) {
+      fichas.slice().sort(function (x, y) {
+        if (porRelevancia && y._p !== x._p) return y._p - x._p;
         if (o === 'alfabetico') return x.dataset.titulo.localeCompare(y.dataset.titulo, 'es');
         var d = new Date(y.dataset.fecha) - new Date(x.dataset.fecha);
         return o === 'antiguas' ? -d : d;
@@ -84,7 +100,7 @@
     q.addEventListener('input', filtrar);
     if (selMun) selMun.addEventListener('change', filtrar);
     if (selAnio) selAnio.addEventListener('change', filtrar);
-    selOrden.addEventListener('change', ordenar);
+    selOrden.addEventListener('change', filtrar);
     $$('.chip[data-col]', arch).forEach(function (c) { c.addEventListener('click', function () { col = c.dataset.col; filtrar(); }); });
     filtrar();
   }

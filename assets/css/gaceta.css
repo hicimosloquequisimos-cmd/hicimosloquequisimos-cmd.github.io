@@ -51,6 +51,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
 
@@ -678,3 +679,8 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 .caja-autor .caja-autor__perfil { margin: 0 0 .5rem; color: var(--lodo); }
 @media (max-width: 520px) { .caja-autor { grid-template-columns: 1fr; } }
 .caja-autor p.caja-autor__perfil { font-size: .68rem; }
+
+/* Seudónimo */
+.seudonimo { font-family: var(--f-archivo); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); margin: -.3rem 0 1rem; }
+.seudonimo .mano { font-size: 1.9rem; text-transform: none; letter-spacing: 0; margin-left: .3rem; display: inline-block; transform: rotate(-3deg); }
+.persona__seudonimo { display: block; font-size: 1.35rem; margin: -.2rem 0 .2rem; }

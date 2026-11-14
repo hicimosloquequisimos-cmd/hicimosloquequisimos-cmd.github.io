@@ -34,6 +34,12 @@ const leerCarpeta = dir => {
 const ajuste = n => leerJSON(path.join(RAIZ, 'content', 'ajustes', `${n}.json`)) || {};
 
 const sitio = { nombre: 'Hicimos lo que quisimos', correo: 'hicimosloquequisimos@gmail.com', ...ajuste('sitio') };
+// Dirección completa del sitio: la de Ajustes, la que da GitHub Pages, o la deducida del repositorio
+if (!sitio.url) {
+  const [dueno] = REPO.split('/');
+  sitio.url = process.env.SITE_URL || (dueno && dueno !== 'USUARIO' ? `https://${dueno.toLowerCase()}.github.io${BASE}` : '');
+}
+sitio.url = (sitio.url || '').replace(/\/$/, '');
 const menu = ajuste('menu');
 const inicio = ajuste('inicio');
 const equipo = ajuste('equipo');
@@ -68,6 +74,8 @@ const colPorSlug = Object.fromEntries(colecciones.map(c => [c.slug, c]));
 
 const autores = leerCarpeta('autores').sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 const autPorSlug = Object.fromEntries(autores.map(a => [a.slug, a]));
+// Nombre que se muestra en obras y fichas: el seudónimo si lo hay
+const publico = a => (a && (a.seudonimo || a.nombre)) || '';
 
 const todasObras = leerCarpeta('obras');
 const obras = todasObras
@@ -86,7 +94,8 @@ const obras = todasObras
 }
 for (const o of obras) {
   o.col = colPorSlug[o.coleccion] || { nombre: o.coleccion || 'Sin colección', slug: o.coleccion || '', colorCss: 'var(--grafito)' };
-  o.nombresAutores = o.autores.map(s => autPorSlug[s]?.nombre || s);
+  o.nombresAutores = o.autores.map(s => publico(autPorSlug[s]) || s);
+  o.nombresBusqueda = o.autores.map(s => [autPorSlug[s]?.nombre, autPorSlug[s]?.seudonimo].filter(Boolean).join(' '));
   if (o.autor_texto) o.nombresAutores.push(o.autor_texto);
   o.firma = o.nombresAutores.join(', ') || 'Anónimo';
   o.url = `/obra/${o.slug}/`;
@@ -117,13 +126,13 @@ const estadisticas = { obras: obras.length, autores: autoresConObra.size, munici
 
 // ---------- Componentes ----------
 function firmaEnlazada(o) {
-  const partes = o.autores.map(sl => autPorSlug[sl] ? `<a href="${link(`/autor/${sl}/`)}">${esc(autPorSlug[sl].nombre)}</a>` : esc(sl));
+  const partes = o.autores.map(sl => autPorSlug[sl] ? `<a href="${link(`/autor/${sl}/`)}">${esc(publico(autPorSlug[sl]))}</a>` : esc(sl));
   if (o.autor_texto) partes.push(esc(o.autor_texto));
   return partes.join(', ') || 'Anónimo';
 }
 
 function ficha(o, { imagen = false } = {}) {
-  return `<article class="ficha" style="--col:${o.col.colorCss}" data-col="${esc(o.coleccion || '')}" data-mun="${esc(normalizar(o.municipio || ''))}" data-anio="${anio(o.fecha_publicacion)}" data-texto="${esc(normalizar([o.titulo, o.firma, o.municipio, o.col.nombre, o.codigo, o.procedencia, o.extractoFinal, ...(o.etiquetas || []).map(e => e.etiqueta || e)].join(' ')))}" data-fecha="${o._fecha.toISOString()}" data-titulo="${esc(normalizar(o.titulo))}">
+  return `<article class="ficha" style="--col:${o.col.colorCss}" data-col="${esc(o.coleccion || '')}" data-mun="${esc(normalizar(o.municipio || ''))}" data-anio="${anio(o.fecha_publicacion)}" data-texto="${esc(normalizar([o.titulo, o.firma, ...(o.nombresBusqueda || []), o.municipio, o.col.nombre, o.codigo, o.procedencia, o.extractoFinal, ...(o.etiquetas || []).map(e => e.etiqueta || e)].join(' ')))}" data-cuerpo="${esc(normalizar(String(o.textoPlano || '').replace(/~~|\^\^|[#>*_`|]/g, ' ').replace(/\s+/g, ' ')).slice(0, 6000))}" data-autor="${esc(normalizar(o.firma))}" data-fecha="${o._fecha.toISOString()}" data-titulo="${esc(normalizar(o.titulo))}">
     ${o.destacada ? '<span class="sello-destacada">Destacada</span>' : ''}
     <div class="ficha__cabeza"><span class="ficha__col">${esc(o.col.nombre)}</span><span>${esc(o.codigo)}</span></div>
     ${imagen && o.portada ? `<div class="ficha__imagen"><img src="${esc(u(o.portada))}" alt="" loading="lazy"></div>` : ''}
@@ -140,7 +149,7 @@ function cajaAutor(a) {
     <a class="persona__foto" href="${link(`/autor/${a.slug}/`)}" tabindex="-1" aria-hidden="true">${a.foto ? `<img src="${esc(u(a.foto))}" alt="" loading="lazy">` : '<span class="h">H</span>'}</a>
     <div>
       <span class="meta">Quien escribe</span>
-      <h3><a href="${link(`/autor/${a.slug}/`)}">${esc(a.nombre)}</a></h3>
+      <h3><a href="${link(`/autor/${a.slug}/`)}">${esc(publico(a))}</a></h3>
       ${a.perfil || a.municipio ? `<p class="meta caja-autor__perfil">${[a.perfil, a.municipio].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
       ${a.bio ? `<p>${esc(resumen(a.bio, 220))}</p>` : ''}
       <a class="boton boton--chico" href="${link(`/autor/${a.slug}/`)}">${icono('autor')} Ver perfil${n > 1 ? ` y sus ${n} obras` : ''}</a>
@@ -153,7 +162,7 @@ function persona(p, enlace) {
   const h = enlace || (p.enlace ? href(p.enlace) : '');
   return `<${tag} class="persona"${h ? ` href="${esc(h)}"` : ''}>
     <div class="persona__foto">${p.foto ? `<img src="${esc(u(p.foto))}" alt="" loading="lazy">` : '<span class="h" aria-hidden="true">H</span>'}</div>
-    <h3>${esc(p.nombre || '')}</h3>${p.rol || p.perfil ? `<span class="rol">${esc(p.rol || p.perfil)}</span>` : ''}${p.bio && !enlace ? `<p>${esc(p.bio)}</p>` : ''}
+    <h3>${esc(p.nombre || '')}</h3>${p.seudonimo ? `<span class="persona__seudonimo mano">${esc(p.seudonimo)}</span>` : ''}${p.rol || p.perfil ? `<span class="rol">${esc(p.rol || p.perfil)}</span>` : ''}${p.bio && !enlace ? `<p>${esc(p.bio)}</p>` : ''}
   </${tag}>`;
 }
 
@@ -347,7 +356,7 @@ function construir() {
     const hermanas = obras.filter(x => x.coleccion === o.coleccion);
     const i = hermanas.indexOf(o);
     const ant = hermanas[i + 1], sig = hermanas[i - 1];
-    const autoresLinks = o.autores.map(s => autPorSlug[s] ? `<a href="${link(`/autor/${s}/`)}">${esc(autPorSlug[s].nombre)}</a>` : esc(s));
+    const autoresLinks = o.autores.map(s => autPorSlug[s] ? `<a href="${link(`/autor/${s}/`)}">${esc(publico(autPorSlug[s]))}</a>` : esc(s));
     if (o.autor_texto) autoresLinks.push(esc(o.autor_texto));
     const urlAbs = (sitio.url || '').replace(/\/$/, '') + u(o.url);
     const cita = `${o.firma}. (${anio(o.fecha_publicacion)}). ${o.titulo} [${o.col.nombre.toLowerCase()}]. ${sitio.nombre}, ${o.codigo}. ${urlAbs}`;
@@ -413,8 +422,9 @@ function construir() {
     escribir(`/autor/${a.slug}/`, pagina({
       titulo: a.nombre, ruta: `/autor/${a.slug}/`, descripcion: a.perfil || resumen(a.bio), imagen: a.foto, franja: colorCss(a.color),
       cuerpo: `<div class="contenedor"><div class="perfil">
-        <div>${persona({ ...a, nombre: '', perfil: '' }).replace(/<h3><\/h3>/, '')}</div>
+        <div>${persona({ foto: a.foto }).replace(/<h3><\/h3>/, '')}</div>
         <div><nav class="migas"><a href="${link('/autores/')}">Autores</a></nav><h1>${esc(a.nombre)}</h1>
+          ${a.seudonimo ? `<p class="seudonimo">Firma como <span class="mano">${esc(a.seudonimo)}</span></p>` : ''}
           <p class="sobretitulo">${[a.perfil, a.municipio].filter(Boolean).map(esc).join(' · ')}</p>
           <div class="texto-md">${md(a.bio, u)}</div>
           <div class="cifras" style="margin-top:2rem"><div class="cifra"><b>${lista.length}</b><span>${lista.length === 1 ? 'obra' : 'obras'}</span></div>${[...new Set(lista.map(o => o.col.nombre))].map(n => `<div class="cifra"><span>${esc(n)}</span></div>`).join('')}</div>
@@ -511,9 +521,8 @@ function construir() {
   // Panel de edición
   fs.mkdirSync(path.join(SALIDA, 'admin'), { recursive: true });
   const conf = panel.config(REPO, RAMA);
-  conf.site_url = sitio.url || '/';
-  conf.display_url = sitio.url || '/';
-  conf.logo_url = u('/favicon.svg');
+  if (sitio.url) { conf.site_url = sitio.url; conf.display_url = sitio.url; } else { delete conf.site_url; delete conf.display_url; }
+  conf.logo_url = (sitio.url || '') + '/favicon.svg';
   conf.public_folder = BASE + '/media/subidas';
   fs.writeFileSync(path.join(SALIDA, 'admin', 'config.yml'), JSON.stringify(conf, null, 2));
   fs.writeFileSync(path.join(SALIDA, 'admin', 'index.html'), fs.readFileSync(path.join(RAIZ, 'admin', 'index.html'), 'utf8').replace(/\{\{BASE\}\}/g, BASE));
