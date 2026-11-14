@@ -98,15 +98,24 @@
       "cantidad": 3
     },
     {
-      "tipo": "imagen",
-      "sobretitulo": "Conoce a Izy",
+      "tipo": "llamado",
+      "sobretitulo": "CARA DE LA GACETA",
+      "tachado": "obediencia",
+      "escrito": "recocha.",
+      "botones": [],
       "apariencia": null,
-      "bajada": "La cara del desorden.",
-      "tamano": "normal",
-      "enlace": "",
-      "imagen": "/media/subidas/Izy_recostada_lentes.gif",
-      "alt": "",
-      "pie": ""
+      "titulo": "Conoce a Izy",
+      "bajada": "La dueña de toda la",
+      "lado": {
+        "archivo": "/media/subidas/Izy_recostada_lentes.gif",
+        "posicion": "izquierda",
+        "tamano": "p",
+        "vertical": "center",
+        "alt": "",
+        "pie": "",
+        "celular": true
+      },
+      "texto": "Ella es Izy, la cara de la gaceta y dueña de todo el desorden que queremos hacer por acá. Ella también quiere ver todo el arte que nos puedes mandar."
     }
   ]
 }
