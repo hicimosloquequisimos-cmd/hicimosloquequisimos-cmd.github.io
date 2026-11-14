@@ -44,6 +44,9 @@ const menu = ajuste('menu');
 const inicio = ajuste('inicio');
 const equipo = ajuste('equipo');
 const archivoAj = ajuste('archivo');
+const secciones = ajuste('secciones');
+// Encabezado de una sección: lo del panel, o el texto de siempre si está vacío
+const cabSeccion = (clave, def) => { const a = secciones[clave] || {}; const vacio = !a.titulo && !a.escrito && !a.sobretitulo && !a.bajada && !a.tachado; return vacio ? def : { sobretitulo: a.sobretitulo, titulo: a.titulo, tachado: a.tachado, escrito: a.escrito, bajada: a.bajada }; };
 
 // ---------- Enlaces ----------
 const u = (p = '') => {
@@ -132,7 +135,7 @@ function firmaEnlazada(o) {
 }
 
 function ficha(o, { imagen = false } = {}) {
-  return `<article class="ficha" style="--col:${o.col.colorCss}" data-col="${esc(o.coleccion || '')}" data-mun="${esc(normalizar(o.municipio || ''))}" data-anio="${anio(o.fecha_publicacion)}" data-texto="${esc(normalizar([o.titulo, o.firma, ...(o.nombresBusqueda || []), o.municipio, o.col.nombre, o.codigo, o.procedencia, o.extractoFinal, ...(o.etiquetas || []).map(e => e.etiqueta || e)].join(' ')))}" data-cuerpo="${esc(normalizar(String(o.textoPlano || '').replace(/~~|\^\^|[#>*_`|]/g, ' ').replace(/\s+/g, ' ')).slice(0, 6000))}" data-autor="${esc(normalizar(o.firma))}" data-fecha="${o._fecha.toISOString()}" data-titulo="${esc(normalizar(o.titulo))}">
+  return `<article class="ficha" style="--col:${o.col.colorCss}" data-col="${esc(o.coleccion || '')}" data-mun="${esc(normalizar(o.municipio || ''))}" data-anio="${anio(o.fecha_publicacion)}" data-texto="${esc(normalizar([o.titulo, o.firma, ...(o.nombresBusqueda || []), o.municipio, o.col.nombre, o.codigo, o.procedencia, o.extractoFinal, ...(o.etiquetas || []).map(e => e.etiqueta || e)].join(' ')))}" data-cuerpo="${esc(normalizar(String(o.textoPlano || '').replace(/~~|\^\^|[#>*_`|]/g, ' ').replace(/\s+/g, ' ')).slice(0, 6000))}" data-autor="${esc(normalizar(o.firma))}" data-codigo="${numCodigo(o)}" data-fecha="${o._fecha.toISOString()}" data-titulo="${esc(normalizar(o.titulo))}">
     ${o.destacada ? '<span class="sello-destacada">Destacada</span>' : ''}
     <div class="ficha__cabeza"><span class="ficha__col">${esc(o.col.nombre)}</span><span>${esc(o.codigo)}</span></div>
     ${imagen && o.portada ? `<div class="ficha__imagen"><img src="${esc(u(o.portada))}" alt="" loading="lazy"></div>` : ''}
@@ -185,7 +188,8 @@ function entrada(e) {
 const RED_ICONO = { instagram: 'instagram', x: 'x', tiktok: 'tiktok', facebook: 'facebook', youtube: 'youtube', whatsapp: 'whatsapp', spotify: 'spotify', web: 'web' };
 const redes = () => `<div class="redes">${(sitio.redes || []).filter(r => r.url).map(r => `<a href="${esc(r.url)}" target="_blank" rel="noopener" aria-label="${esc(r.red)} ${esc(r.usuario || '')}">${icono(RED_ICONO[r.red] || 'web')}</a>`).join('')}</div>`;
 
-const ctx = { u, link, href, mailto, firmaEnlazada, obras, colecciones, autores, agenda, bitacora, equipo, sitio, estadisticas, ficha, persona, evento, entrada, redes };
+const numCodigo = o => { const m = String(o.codigo || '').match(/(\d+)/); return m ? +m[1] : 1e9; };
+const ctx = { numCodigo, u, link, href, mailto, firmaEnlazada, obras, colecciones, autores, agenda, bitacora, equipo, sitio, estadisticas, ficha, persona, evento, entrada, redes };
 
 // ---------- Plantilla general ----------
 function enlacesMenu() {
@@ -318,7 +322,7 @@ function construir() {
   const anios = [...new Set(obras.map(o => anio(o.fecha_publicacion)).filter(Boolean))].sort((a, b) => b - a);
   escribir('/archivo/', pagina({
     titulo: 'Archivo', ruta: '/archivo/', descripcion: `Repositorio de escritura: ${obras.length} obras de libre lectura.`,
-    cuerpo: `${cabezaPagina({ sobretitulo: archivoAj.sobretitulo || 'Archivo', titulo: archivoAj.titulo || 'Todo lo que', escrito: archivoAj.escrito || 'quisimos', bajada: archivoAj.bajada })}
+    cuerpo: `${cabezaPagina({ sobretitulo: archivoAj.sobretitulo || 'Archivo', titulo: archivoAj.titulo || 'Todo lo que', tachado: archivoAj.tachado, escrito: archivoAj.escrito || 'quisimos', bajada: archivoAj.bajada })}
     <section class="bloque" style="padding-top:0"><div class="contenedor" data-archivo>
       <div class="buscador">${icono('buscar')}<label for="q" class="sr">Buscar</label><input id="q" type="search" placeholder="${esc(archivoAj.placeholder || 'río, abuela, Gamarra…')}" data-q autocomplete="off"></div>
       <div class="filtros" role="group" aria-label="Colecciones">
@@ -328,10 +332,10 @@ function construir() {
       <div class="filtros">
         ${municipiosLista.length ? `<select data-mun aria-label="Municipio"><option value="">Todos los municipios</option>${municipiosLista.map(([k, v]) => `<option value="${esc(k)}">${esc(v)}</option>`).join('')}</select>` : ''}
         ${anios.length ? `<select data-anio aria-label="Año"><option value="">Todos los años</option>${anios.map(a => `<option>${a}</option>`).join('')}</select>` : ''}
-        <select data-orden aria-label="Orden"><option value="recientes">Más recientes</option><option value="antiguas">Más antiguas</option><option value="alfabetico">De la A a la Z</option></select>
+        <select data-orden aria-label="Orden">${[['recientes', 'Más recientes'], ['antiguas', 'Más antiguas'], ['codigo', 'Por código'], ['codigo_desc', 'Por código (desc.)'], ['alfabetico', 'De la A a la Z']].map(([v, l]) => `<option value="${v}"${(archivoAj.orden || 'recientes') === v ? ' selected' : ''}>${l}</option>`).join('')}</select>
         <span class="contador" data-contador>${obras.length} fichas</span>
       </div>
-      <div class="fichas" data-lista>${obras.map(o => ficha(o)).join('')}</div>
+      <div class="fichas" data-lista>${(() => { const l = obras.slice(); const o = archivoAj.orden; if (o === 'antiguas') l.reverse(); else if (o === 'alfabetico') l.sort((a, z) => a.titulo.localeCompare(z.titulo, 'es')); else if (o === 'codigo' || o === 'codigo_desc') { l.sort((a, z) => numCodigo(a) - numCodigo(z)); if (o === 'codigo_desc') l.reverse(); } return l; })().map(o => ficha(o)).join('')}</div>
       <div class="vacio" data-vacio ${obras.length ? 'hidden' : ''}><span class="mano">Nada por aquí todavía</span>Prueba con otra palabra, o <a href="${esc(mailto())}">envíanos lo que escribiste</a>.</div>
     </div></section>
     ${bloques(archivoAj.bloques, ctx)}`,
@@ -414,8 +418,9 @@ function construir() {
   // Autores
   escribir('/autores/', pagina({
     titulo: 'Autores', ruta: '/autores/', descripcion: 'Quienes escriben en la gaceta.',
-    cuerpo: `${cabezaPagina({ sobretitulo: 'Archivo · Autores', titulo: 'Quienes', escrito: 'escriben', bajada: 'Estudiantes, docentes, colegios, cantadoras y comunidades del sur del Cesar y la ribera del Magdalena.' })}
-    <section class="bloque" style="padding-top:1rem"><div class="contenedor">${autores.length ? `<div class="personas">${autores.map(a => persona(a, link(`/autor/${a.slug}/`))).join('')}</div>` : '<div class="vacio"><span class="mano">Pronto, sus nombres</span></div>'}</div></section>`,
+    cuerpo: `${cabezaPagina(cabSeccion('autores', { sobretitulo: 'Archivo · Autores', titulo: 'Quienes', escrito: 'escriben', bajada: 'Estudiantes, docentes, colegios, cantadoras y comunidades del sur del Cesar y la ribera del Magdalena.' }))}
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor">${autores.length ? `<div class="personas">${autores.map(a => persona(a, link(`/autor/${a.slug}/`))).join('')}</div>` : '<div class="vacio"><span class="mano">Pronto, sus nombres</span></div>'}</div></section>
+    ${bloques(secciones.autores?.bloques, ctx)}`,
   }));
   for (const a of autores) {
     const lista = obras.filter(o => o.autores.includes(a.slug));
@@ -449,11 +454,12 @@ function construir() {
   const proximos = agenda.filter(e => !e.pasado), pasados = agenda.filter(e => e.pasado);
   escribir('/agenda/', pagina({
     titulo: 'Agenda', ruta: '/agenda/', descripcion: 'Convocatorias, talleres y lecturas.',
-    cuerpo: `${cabezaPagina({ sobretitulo: 'Agenda', titulo: 'Lo que', escrito: 'viene', bajada: 'Convocatorias, talleres, lecturas públicas y lanzamientos.' })}
+    cuerpo: `${cabezaPagina(cabSeccion('agenda', { sobretitulo: 'Agenda', titulo: 'Lo que', escrito: 'viene', bajada: 'Convocatorias, talleres, lecturas públicas y lanzamientos.' }))}
     <section class="bloque" style="padding-top:1rem"><div class="contenedor">
       ${proximos.length ? `<div class="agenda" data-agenda>${proximos.map(evento).join('')}</div>` : '<div class="vacio"><span class="mano">Pronto anunciamos lo que viene</span></div>'}
       ${pasados.length ? `<h2 style="margin-top:4rem">Ya pasó</h2><div class="agenda">${pasados.map(evento).join('')}</div>` : ''}
-    </div></section>`,
+    </div></section>
+    ${bloques(secciones.agenda?.bloques, ctx)}`,
   }));
   for (const e of agenda) {
     const [tipo, col] = TIPO_EVENTO[e.tipo] || TIPO_EVENTO.otro;
@@ -480,8 +486,9 @@ function construir() {
   // Bitácora
   escribir('/bitacora/', pagina({
     titulo: 'Bitácora', ruta: '/bitacora/', descripcion: 'Noticias y crónicas del equipo.',
-    cuerpo: `${cabezaPagina({ sobretitulo: 'Bitácora', titulo: 'Lo que', escrito: 'pasó', bajada: 'Noticias, crónicas del equipo y resultados de convocatorias.' })}
-    <section class="bloque" style="padding-top:1rem"><div class="contenedor">${bitacora.length ? `<div class="entradas">${bitacora.map(entrada).join('')}</div>` : '<div class="vacio"><span class="mano">La primera entrada viene en camino</span></div>'}</div></section>`,
+    cuerpo: `${cabezaPagina(cabSeccion('bitacora', { sobretitulo: 'Bitácora', titulo: 'Lo que', escrito: 'pasó', bajada: 'Noticias, crónicas del equipo y resultados de convocatorias.' }))}
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor">${bitacora.length ? `<div class="entradas">${bitacora.map(entrada).join('')}</div>` : '<div class="vacio"><span class="mano">La primera entrada viene en camino</span></div>'}</div></section>
+    ${bloques(secciones.bitacora?.bloques, ctx)}`,
   }));
   for (const e of bitacora) {
     escribir(e.url, pagina({

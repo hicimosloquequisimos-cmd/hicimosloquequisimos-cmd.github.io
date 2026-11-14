@@ -93,6 +93,8 @@
       fichas.slice().sort(function (x, y) {
         if (porRelevancia && y._p !== x._p) return y._p - x._p;
         if (o === 'alfabetico') return x.dataset.titulo.localeCompare(y.dataset.titulo, 'es');
+        if (o === 'codigo') return (+x.dataset.codigo) - (+y.dataset.codigo);
+        if (o === 'codigo_desc') return (+y.dataset.codigo) - (+x.dataset.codigo);
         var d = new Date(y.dataset.fecha) - new Date(x.dataset.fecha);
         return o === 'antiguas' ? -d : d;
       }).forEach(function (f) { lista.appendChild(f); });
