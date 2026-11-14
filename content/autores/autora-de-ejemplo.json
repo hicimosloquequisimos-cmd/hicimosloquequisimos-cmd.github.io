@@ -1,9 +1,11 @@
 {
-  "nombre": "Autora de ejemplo",
+  "nombre": "Sara Valentina Peinado Mesa",
   "foto": "",
   "municipio": "Aguachica",
-  "perfil": "Perfil de ejemplo · bórralo desde el panel",
-  "bio": "Este es un perfil de ejemplo para ver cómo se ve la página de un autor. Cuando publiquen la primera obra real, creen aquí el perfil de quien la escribió y borren este.",
+  "perfil": "",
+  "bio": "Sara Valentina Peinado Mesa (Aguachica) de 17 años, suele escribir y decidió participar.",
   "redes": [],
-  "color": "rojo"
+  "color": "rojo",
+  "correo_publico": "",
+  "bloques": []
 }
