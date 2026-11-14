@@ -15,15 +15,15 @@
       "escrito": "quisimos",
       "apariencia": {
         "fondo": "papel",
-        "espacio": "amplio",
-        "ancho": "lectura",
+        "espacio": "compacto",
+        "ancho": "normal",
         "alineacion": "izquierda",
         "ancla": "",
         "oculto": false
       },
       "titulo": "Hicimos lo que",
       "bajada": "",
-      "tamano": ""
+      "tamano": "grande"
     },
     {
       "tipo": "enmiendas",
