@@ -1,0 +1,23 @@
+{
+  "enlaces": [
+    {
+      "texto": "Archivo",
+      "enlace": "/archivo/"
+    },
+    {
+      "texto": "Autores",
+      "enlace": "/autores/"
+    },
+    {
+      "texto": "Agenda",
+      "enlace": "/agenda/"
+    },
+    {
+      "texto": "Equipo editorial",
+      "enlace": "/equipo-editorial/"
+    }
+  ],
+  "incluir_paginas": true,
+  "boton_texto": "Envía tu creación",
+  "boton_enlace": ""
+}

@@ -1,0 +1,91 @@
+{
+  "titulo": "Manifiesto",
+  "url": "manifiesto",
+  "sobretitulo": "Antes de empezar · Manifiesto",
+  "tachado": "",
+  "escrito": "",
+  "bajada": "",
+  "cabeza": false,
+  "franja": "rojo",
+  "bloques": [
+    {
+      "tipo": "encabezado",
+      "sobretitulo": "Antes de empezar · Manifiesto",
+      "titulo": "Hicimos lo que",
+      "tachado": "debíamos",
+      "escrito": "quisimos",
+      "tamano": "grande",
+      "apariencia": {
+        "ancho": "lectura",
+        "espacio": "amplio"
+      }
+    },
+    {
+      "tipo": "enmiendas",
+      "lineas": [
+        {
+          "antes": "Nos dijeron que escribiéramos",
+          "tachado": "como en Bogotá",
+          "escrito": "como en Aguachica",
+          "despues": "."
+        },
+        {
+          "antes": "Que la poesía era",
+          "tachado": "para otros",
+          "escrito": "para la orilla",
+          "despues": "."
+        },
+        {
+          "antes": "Que lo que cantaba la abuela",
+          "tachado": "no era literatura",
+          "escrito": "era archivo",
+          "despues": "."
+        },
+        {
+          "antes": "Que eso",
+          "tachado": "no se publicaba",
+          "escrito": "aquí se publica",
+          "despues": "."
+        }
+      ],
+      "cierre": "Aquí recogemos con atarraya lo que el río deja (versos, cuentos, crónicas, voces), lo corregimos con lápiz rojo y lo devolvemos a quien lo escribió.",
+      "apariencia": {
+        "ancho": "lectura",
+        "espacio": "compacto"
+      }
+    },
+    {
+      "tipo": "separador",
+      "estilo": "atarraya"
+    },
+    {
+      "tipo": "columnas",
+      "titulo": "Lo que nos mueve",
+      "columnas": [
+        {
+          "titulo": "Libertad creativa",
+          "cuerpo": "Se acoge la experimentación formal y temática sin cánones impuestos."
+        },
+        {
+          "titulo": "Territorio",
+          "cuerpo": "La palabra del río, la ciénaga y el pueblo ocupa el centro del archivo."
+        },
+        {
+          "titulo": "Rigor editorial",
+          "cuerpo": "Cada texto pasa por evaluación, edición y corrección antes de publicarse."
+        },
+        {
+          "titulo": "Memoria y apertura",
+          "cuerpo": "Lo publicado se cataloga, se conserva y permanece consultable. Escriben estudiantes, docentes, colegios, cantadoras y comunidades."
+        }
+      ],
+      "apariencia": {
+        "fondo": "ficha"
+      }
+    }
+  ],
+  "en_menu": true,
+  "orden_menu": 5,
+  "descripcion_seo": "Manifiesto de la gaceta Hicimos lo que quisimos.",
+  "imagen_seo": ""
+}

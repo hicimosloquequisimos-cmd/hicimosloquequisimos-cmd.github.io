@@ -1,0 +1,80 @@
+{
+  "titulo": "Envía tu texto",
+  "url": "envia-tu-texto",
+  "sobretitulo": "Convocatoria permanente",
+  "tachado": "debes",
+  "escrito": "quieras",
+  "bajada": "Escribe lo que quieras. Trae lo que escribiste a escondidas: aquí se publica.",
+  "cabeza": true,
+  "franja": "",
+  "bloques": [
+    {
+      "tipo": "envio",
+      "titulo": "Envía tu creación",
+      "texto": "Recibimos poesía, cuento, formas híbridas, ensayo y crónica. Escribe al correo de la gaceta con el asunto **ENVÍO | GÉNERO | TÍTULO**.\n\nEl botón abre tu correo con la plantilla lista.",
+      "requisitos": [
+        {
+          "item": "La obra, anónima (sin tu nombre dentro del archivo)."
+        },
+        {
+          "item": "Ficha de autor: datos, biografía, uso de IA y/o créditos."
+        },
+        {
+          "item": "Licencia de uso no exclusivo, firmada (PDF)."
+        },
+        {
+          "item": "Nota de obra (opcional, máximo 150 palabras)."
+        }
+      ],
+      "boton": "Envía tu creación"
+    },
+    {
+      "tipo": "ruta",
+      "titulo": "Qué pasa con tu texto",
+      "pasos": [
+        {
+          "titulo": "Recibimos",
+          "texto": "Confirmamos que llegó tu texto y lo registramos."
+        },
+        {
+          "titulo": "Leemos",
+          "texto": "Dos lectores lo evalúan sin saber quién lo escribió."
+        },
+        {
+          "titulo": "Enmendamos",
+          "texto": "Proponemos correcciones. Tú decides qué enmiendas aceptar."
+        },
+        {
+          "titulo": "Publicamos",
+          "texto": "Tu obra entra al archivo con su ficha y tu nombre."
+        }
+      ],
+      "nota": "el editor propone, el autor decide qué enmiendas acepta",
+      "apariencia": {
+        "fondo": "ficha"
+      }
+    },
+    {
+      "tipo": "preguntas",
+      "titulo": "Preguntas frecuentes",
+      "items": [
+        {
+          "pregunta": "¿Quién puede enviar?",
+          "respuesta": "Estudiantes, docentes, colegios y comunidades del sur del Cesar y la ribera del Magdalena."
+        },
+        {
+          "pregunta": "¿Hay un tema obligatorio?",
+          "respuesta": "No. Hicimos lo que quisimos."
+        },
+        {
+          "pregunta": "¿Con qué licencia se publica?",
+          "respuesta": "Creative Commons BY-NC-ND 4.0: se puede compartir citando tu nombre, sin fines comerciales y sin modificar la obra."
+        }
+      ]
+    }
+  ],
+  "en_menu": false,
+  "orden_menu": 10,
+  "descripcion_seo": "Envía tu texto a la gaceta.",
+  "imagen_seo": ""
+}

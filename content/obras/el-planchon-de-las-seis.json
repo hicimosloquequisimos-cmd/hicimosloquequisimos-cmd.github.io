@@ -1,0 +1,40 @@
+{
+  "autores": [
+    "autora-de-ejemplo"
+  ],
+  "autor_texto": "",
+  "codigo": "",
+  "departamento": "Cesar",
+  "evaluacion": "doble ciego · 2 lectores",
+  "licencia": "CC BY-NC-ND 4.0",
+  "extracto": "",
+  "portada": "",
+  "portada_pie": "",
+  "galeria": [],
+  "audio": "",
+  "audio_url": "",
+  "transcripcion": "",
+  "video": "",
+  "pdf": "",
+  "etiquetas": [],
+  "destacada": false,
+  "ejemplo": true,
+  "bloques": [],
+  "descripcion_seo": "",
+  "estado": "publicada",
+  "fecha_escritura": "",
+  "titulo": "El planchón de las seis",
+  "coleccion": "cuento",
+  "fecha_publicacion": "2026-11-05",
+  "municipio": "La Gloria",
+  "procedencia": "Obra de ejemplo",
+  "forma": "prosa",
+  "verso": "",
+  "prosa": "El planchón salía a las seis, aunque nadie supiera muy bien de qué reloj. Don Abel lo empujaba con la vara como quien empuja una conversación vieja, y los pasajeros se quedaban callados para no espantar al río.\n\nAquella mañana subió una muchacha con un cuaderno forrado en plástico. No miró la otra orilla: miró el agua, y escribió.\n\n—¿Qué anota? —preguntó Don Abel.\n\n—Lo que usted no dice —contestó ella.",
+  "notas": [
+    {
+      "tipo": "Contexto",
+      "texto": "texto de ejemplo para ver una obra en prosa"
+    }
+  ]
+}

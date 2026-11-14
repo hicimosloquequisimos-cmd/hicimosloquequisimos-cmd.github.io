@@ -1,0 +1,96 @@
+{
+  "titulo": "Equipo editorial",
+  "intro": "Quienes leen, evalúan, corrigen y publican cada texto de la gaceta.",
+  "miembros": [
+    {
+      "nombre": "Luisa Mariana López",
+      "rol": "Directora General",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Luis Hernán Romero Reyes",
+      "rol": "Editor Jefe",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Carmen Alicia Guagua Tovar",
+      "rol": "Auxiliar Editor Jefe",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Juan José Árevalo Gallardo",
+      "rol": "Jefe de Talleres",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Liz Alexandra Vega Rivera",
+      "rol": "Auxiliar Jefe de Talleres",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Sebastian Montealegre Vergel",
+      "rol": "Jefe de Página",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Cristian Andrés Rangel Vera",
+      "rol": "Jefe de redes",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Mariangel Arrieta",
+      "rol": "Auxiliar Jefe de redes",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
+      "nombre": "Sharon Michell Bandera Cárdenas",
+      "rol": "Auxiliar Jefe de redes",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    }
+  ],
+  "bloques": [
+    {
+      "tipo": "enmiendas",
+      "titulo": "",
+      "lineas": [
+        {
+          "antes": "Nos dijeron que escribiéramos",
+          "tachado": "como en Bogotá",
+          "escrito": "como en Aguachica"
+        },
+        {
+          "antes": "Que la poesía era",
+          "tachado": "para otros",
+          "escrito": "para la orilla"
+        },
+        {
+          "antes": "Que lo que cantaba la abuela",
+          "tachado": "no era literatura",
+          "escrito": "era archivo"
+        }
+      ],
+      "cierre": "[Leer el manifiesto completo](/manifiesto/)",
+      "apariencia": {
+        "fondo": "ficha"
+      }
+    }
+  ]
+}

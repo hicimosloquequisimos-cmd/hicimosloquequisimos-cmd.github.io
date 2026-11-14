@@ -1,0 +1,90 @@
+{
+  "bloques": [
+    {
+      "tipo": "portada",
+      "sobretitulo": "Gaceta digital · Repositorio abierto",
+      "antes": "Escribe lo que",
+      "tachado": "debes",
+      "escrito": "quieras",
+      "intro": "Un espacio de estudiantes para publicar lo irreverente, lo desobediente y lo que escribiste a escondidas. Poesía, cuento, ensayo, crónica y lo que no cabe en ningún género.",
+      "botones": [
+        {
+          "texto": "Envía tu creación",
+          "enlace": "",
+          "estilo": "primario"
+        },
+        {
+          "texto": "Explorar el archivo",
+          "enlace": "/archivo/",
+          "estilo": "contorno"
+        }
+      ],
+      "atarraya": true,
+      "enmienda_frase": true,
+      "pregunta": "¿Qué te dijeron que debías escribir?"
+    },
+    {
+      "tipo": "cifras",
+      "automaticas": true,
+      "extra": [],
+      "nota": "",
+      "apariencia": {
+        "espacio": "compacto"
+      }
+    },
+    {
+      "tipo": "fichas",
+      "sobretitulo": "El archivo",
+      "titulo": "Cómete una paletita y échale ojo al archivo",
+      "cantidad": 6,
+      "orden": "recientes",
+      "ver_todo": true
+    },
+    {
+      "tipo": "texto",
+      "titulo": "Lo que ~~debíamos~~^^dejamos^^",
+      "margen": true,
+      "cuerpo": "Nuestra herencia es preservar y publicar las voces de estudiantes y educadores de la ribera del Magdalena y el sur del Cesar.\n\nAquí recogemos con atarraya lo que el río deja (versos, cuentos, crónicas, voces), lo corregimos con lápiz rojo y lo devolvemos a quien lo escribió.",
+      "apariencia": {
+        "fondo": "ficha"
+      }
+    },
+    {
+      "tipo": "cita",
+      "texto": "Nada de esto es mío.\nPor eso lo publico.",
+      "autor": "Del archivo",
+      "nota": "cambia esta cita por un verso de una obra publicada",
+      "tamano": "grande"
+    },
+    {
+      "tipo": "colecciones",
+      "sobretitulo": "Archivo · Colecciones",
+      "titulo": "Lo que el río nos dejó"
+    },
+    {
+      "tipo": "agenda",
+      "titulo": "Lo que viene",
+      "cantidad": 3
+    },
+    {
+      "tipo": "bitacora",
+      "titulo": "Bitácora",
+      "cantidad": 3
+    },
+    {
+      "tipo": "llamado",
+      "titulo": "Todo lo que escribimos, en un solo lugar",
+      "texto": "Repositorio de escritura del sur del Cesar y la Ribera del Magdalena. Amantes de la desobediencia.",
+      "botones": [
+        {
+          "texto": "Archivo",
+          "enlace": "/archivo/",
+          "estilo": "canaguate"
+        }
+      ],
+      "apariencia": {
+        "fondo": "indigo"
+      }
+    }
+  ]
+}

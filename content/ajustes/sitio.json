@@ -1,0 +1,57 @@
+{
+  "nombre": "Hicimos lo que quisimos",
+  "descripcion": "Repositorio de escritura del sur del Cesar y la Ribera del Magdalena. Gaceta de la Licenciatura en Literatura y Lengua Castellana.",
+  "institucion": "Licenciatura en Literatura y Lengua Castellana · UPC Aguachica",
+  "url": "",
+  "imagen_compartir": "",
+  "correo": "hicimosloquequisimos@gmail.com",
+  "asunto_envio": "ENVÍO | GÉNERO | TÍTULO",
+  "cuerpo_envio": "Hola, equipo de Hicimos lo que quisimos:\n\nEnvío mi creación para la gaceta. Adjunto:\n\n1. La obra, anónima (sin mi nombre dentro del archivo).\n2. Ficha de autor: datos, biografía corta, uso de IA y/o créditos.\n3. Licencia de uso no exclusivo, firmada (PDF).\n4. Nota de obra (opcional, máximo 150 palabras).\n\nGénero:\nTítulo:\n\nGracias.",
+  "redes": [
+    {
+      "red": "instagram",
+      "url": "https://www.instagram.com/hicimosloquequisimos/",
+      "usuario": "@hicimosloquequisimos"
+    },
+    {
+      "red": "x",
+      "url": "https://x.com/hicimoloququi10",
+      "usuario": "@hicimoloququi10"
+    },
+    {
+      "red": "tiktok",
+      "url": "https://www.tiktok.com/@hicimosloquequisimos",
+      "usuario": "@hicimosloquequisimos"
+    }
+  ],
+  "aviso": {
+    "activo": true,
+    "texto": "Convocatoria abierta: escribe lo que quieras.",
+    "enlace": "/envia-tu-texto/",
+    "texto_enlace": "Envía tu creación",
+    "color": "canaguate"
+  },
+  "frase_pie": "Lo que el río se lleva, la voz lo devuelve.",
+  "texto_pie": "Preservando la voz literaria del sur del Cesar y las riberas del río Magdalena.",
+  "frases_pie": [
+    {
+      "frase": "Repositorio de escritura del sur del Cesar y la Ribera del Magdalena."
+    },
+    {
+      "frase": "Gaceta de la Licenciatura en Literatura y Lengua Castellana."
+    },
+    {
+      "frase": "^^Amantes de la desobediencia.^^"
+    }
+  ],
+  "licencia": "Las obras se publican bajo licencia Creative Commons BY-NC-ND 4.0, salvo que la ficha indique otra.",
+  "marca": {
+    "indigo": "#1E2747",
+    "papel": "#F1E9D8",
+    "rojo": "#D7372B",
+    "canaguate": "#F2B33D",
+    "animar_logo": true,
+    "modo_oscuro": true
+  },
+  "codigo_cabecera": ""
+}

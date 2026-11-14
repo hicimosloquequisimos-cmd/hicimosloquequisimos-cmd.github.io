@@ -1,0 +1,51 @@
+{
+  "autores": [
+    "autora-de-ejemplo"
+  ],
+  "autor_texto": "",
+  "codigo": "",
+  "departamento": "Cesar",
+  "evaluacion": "doble ciego · 2 lectores",
+  "licencia": "CC BY-NC-ND 4.0",
+  "extracto": "",
+  "portada": "",
+  "portada_pie": "",
+  "galeria": [],
+  "audio": "",
+  "audio_url": "",
+  "transcripcion": "",
+  "video": "",
+  "pdf": "",
+  "etiquetas": [
+    {
+      "etiqueta": "río"
+    },
+    {
+      "etiqueta": "orilla"
+    }
+  ],
+  "destacada": true,
+  "ejemplo": true,
+  "bloques": [],
+  "descripcion_seo": "",
+  "estado": "publicada",
+  "fecha_escritura": "",
+  "titulo": "La orilla que baja",
+  "coleccion": "poesia",
+  "fecha_publicacion": "2026-11-10",
+  "municipio": "Gamarra",
+  "procedencia": "Obra de ejemplo",
+  "forma": "verso",
+  "verso": "Cuando el agua se retira\nla orilla aprende a hablar:\n\n        dice piedra,\n        dice garza,\n        dice lo que el río calló.\n\nMe enseñaron que esto ~~no era poesía~~^^era la orilla^^.\nYo lo anoto igual,\ncon la boca llena de barro.",
+  "prosa": "",
+  "notas": [
+    {
+      "tipo": "Nota del editor",
+      "texto": "la autora pidió conservar su tachadura"
+    },
+    {
+      "tipo": "Leído en",
+      "texto": "lectura pública de ejemplo"
+    }
+  ]
+}
