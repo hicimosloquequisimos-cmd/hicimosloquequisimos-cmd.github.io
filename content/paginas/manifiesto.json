@@ -30,7 +30,7 @@
       "apariencia": {
         "fondo": "papel",
         "espacio": "compacto",
-        "ancho": "lectura",
+        "ancho": "normal",
         "alineacion": "izquierda",
         "ancla": "",
         "oculto": false
