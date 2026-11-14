@@ -10,7 +10,7 @@
       "botones": [
         {
           "texto": "Envía tu creación",
-          "enlace": "https://hicimosloquequisimos-cmd.github.io/envia-tu-texto/",
+          "enlace": "",
           "estilo": "primario"
         },
         {
