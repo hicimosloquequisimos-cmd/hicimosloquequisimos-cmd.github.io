@@ -76,28 +76,6 @@
       "titulo": "Bitácora",
       "etiqueta": "",
       "cantidad": 3
-    },
-    {
-      "tipo": "llamado",
-      "tachado": "",
-      "escrito": "",
-      "botones": [
-        {
-          "texto": "Archivo",
-          "enlace": "/archivo/",
-          "estilo": "canaguate"
-        }
-      ],
-      "apariencia": {
-        "fondo": "indigo",
-        "espacio": "normal",
-        "ancho": "normal",
-        "alineacion": "izquierda",
-        "ancla": "",
-        "oculto": false
-      },
-      "titulo": "Todo lo que escribimos, en un solo lugar",
-      "texto": "Repositorio de escritura del sur del Cesar y la Ribera del Magdalena. Amantes de la desobediencia."
     }
   ]
 }
