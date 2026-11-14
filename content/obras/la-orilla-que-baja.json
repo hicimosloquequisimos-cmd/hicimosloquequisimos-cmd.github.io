@@ -1,12 +1,22 @@
 {
+  "titulo": "Calma",
+  "estado": "publicada",
+  "coleccion": "poesia",
   "autores": [
-    "autora-de-ejemplo"
+    "isabel-sofia-quintero-vargas"
   ],
-  "autor_texto": "",
-  "codigo": "",
+  "autor_texto": "Isa :3",
+  "codigo": "HLQQ-001",
+  "fecha_publicacion": "2026-10-29",
+  "fecha_escritura": "",
+  "municipio": "Aguachica",
   "departamento": "Cesar",
+  "procedencia": "",
   "evaluacion": "doble ciego · 2 lectores",
   "licencia": "CC BY-NC-ND 4.0",
+  "forma": "verso",
+  "verso": "Mar en calma,\nolas sin fin\nde un lugar donde quiero existir.\nVivir sin rencores,\nsin enredos,\nmirando el mar\nrecostada en tu pecho.\nAllí, entre tu sonrisa\ny el rumor del mar,\nes donde mi vida\nprefiere estar.\nVoy calmada y sin prisa\nadónde vas tú\ncon esa sonrisa.",
+  "prosa": "",
   "extracto": "",
   "portada": "",
   "portada_pie": "",
@@ -16,36 +26,10 @@
   "transcripcion": "",
   "video": "",
   "pdf": "",
-  "etiquetas": [
-    {
-      "etiqueta": "río"
-    },
-    {
-      "etiqueta": "orilla"
-    }
-  ],
+  "notas": [],
+  "etiquetas": [],
   "destacada": true,
-  "ejemplo": true,
+  "ejemplo": false,
   "bloques": [],
-  "descripcion_seo": "",
-  "estado": "publicada",
-  "fecha_escritura": "",
-  "titulo": "La orilla que baja",
-  "coleccion": "poesia",
-  "fecha_publicacion": "2026-11-10",
-  "municipio": "Gamarra",
-  "procedencia": "Obra de ejemplo",
-  "forma": "verso",
-  "verso": "Cuando el agua se retira\nla orilla aprende a hablar:\n\n        dice piedra,\n        dice garza,\n        dice lo que el río calló.\n\nMe enseñaron que esto ~~no era poesía~~^^era la orilla^^.\nYo lo anoto igual,\ncon la boca llena de barro.",
-  "prosa": "",
-  "notas": [
-    {
-      "tipo": "Nota del editor",
-      "texto": "la autora pidió conservar su tachadura"
-    },
-    {
-      "tipo": "Leído en",
-      "texto": "lectura pública de ejemplo"
-    }
-  ]
+  "descripcion_seo": ""
 }
