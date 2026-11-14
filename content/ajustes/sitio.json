@@ -1,7 +1,7 @@
 {
   "nombre": "Hicimos lo que quisimos",
   "descripcion": "Repositorio de escritura del sur del Cesar y la Ribera del Magdalena. Gaceta de la Licenciatura en Literatura y Lengua Castellana.",
-  "institucion": "Licenciatura en Literatura y Lengua Castellana · UPC Aguachica",
+  "institucion": "Licenciatura en Literatura y Lengua Castellana",
   "url": "https://hicimosloquequisimos-cmd.github.io",
   "imagen_compartir": "",
   "correo": "hicimosloquequisimos@gmail.com",
@@ -35,7 +35,7 @@
   "texto_pie": "Preservando la voz literaria del sur del Cesar y las riberas del río Magdalena.",
   "frases_pie": [
     {
-      "frase": "Repositorio de escritura del sur del Cesar y la Ribera del Magdalena."
+      "frase": "Repositorio de escritura del sur del Cesar y demás partes del mundo."
     },
     {
       "frase": "Gaceta de la Licenciatura en Literatura y Lengua Castellana."
