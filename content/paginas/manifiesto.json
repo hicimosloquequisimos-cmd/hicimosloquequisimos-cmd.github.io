@@ -17,7 +17,7 @@
         "fondo": "papel",
         "espacio": "compacto",
         "ancho": "normal",
-        "alineacion": "izquierda",
+        "alineacion": "centro",
         "ancla": "",
         "oculto": false
       },
