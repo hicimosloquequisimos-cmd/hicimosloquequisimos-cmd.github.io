@@ -684,3 +684,7 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 .seudonimo { font-family: var(--f-archivo); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); margin: -.3rem 0 1rem; }
 .seudonimo .mano { font-size: 1.9rem; text-transform: none; letter-spacing: 0; margin-left: .3rem; display: inline-block; transform: rotate(-3deg); }
 .persona__seudonimo { display: block; font-size: 1.35rem; margin: -.2rem 0 .2rem; }
+/* Bloques centrados: los textos también se centran como caja */
+.alinear-centro .texto-md, .alinear-centro .enmiendas, .alinear-centro .cifras { margin-inline: auto; }
+.alinear-centro .cifras { justify-content: center; }
+.alinear-centro .texto-md ul { display: inline-block; text-align: left; }
