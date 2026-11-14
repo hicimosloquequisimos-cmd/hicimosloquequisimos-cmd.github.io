@@ -54,7 +54,15 @@
       "tachado": "",
       "escrito": "",
       "botones": [],
-      "apariencia": null,
+      "apariencia": {
+        "fondo": "papel",
+        "espacio_arriba": "3",
+        "espacio_abajo": "3",
+        "ancho": "normal",
+        "alineacion": "izquierda",
+        "ancla": "",
+        "oculto": false
+      },
       "titulo": "Conoce a Izy",
       "bajada": "La dueña de toda la ~~obediencia~~^^recocha^^",
       "lado": {
