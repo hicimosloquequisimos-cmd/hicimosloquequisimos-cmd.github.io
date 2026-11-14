@@ -11,17 +11,31 @@
     {
       "tipo": "encabezado",
       "sobretitulo": "Antes de empezar · Manifiesto",
-      "titulo": "Hicimos lo que",
       "tachado": "debíamos",
       "escrito": "quisimos",
-      "tamano": "grande",
       "apariencia": {
+        "fondo": "papel",
+        "espacio": "amplio",
         "ancho": "lectura",
-        "espacio": "amplio"
-      }
+        "alineacion": "centro",
+        "ancla": "",
+        "oculto": false
+      },
+      "titulo": "Hicimos lo que",
+      "bajada": "",
+      "tamano": "grande"
     },
     {
       "tipo": "enmiendas",
+      "apariencia": {
+        "fondo": "papel",
+        "espacio": "compacto",
+        "ancho": "lectura",
+        "alineacion": "izquierda",
+        "ancla": "",
+        "oculto": false
+      },
+      "titulo": "",
       "lineas": [
         {
           "antes": "Nos dijeron que escribiéramos",
@@ -48,18 +62,23 @@
           "despues": "."
         }
       ],
-      "cierre": "Aquí recogemos con atarraya lo que el río deja (versos, cuentos, crónicas, voces), lo corregimos con lápiz rojo y lo devolvemos a quien lo escribió.",
-      "apariencia": {
-        "ancho": "lectura",
-        "espacio": "compacto"
-      }
+      "cierre": "Aquí recogemos con atarraya lo que el río deja (versos, cuentos, crónicas, voces), lo corregimos con lápiz rojo y lo devolvemos a quien lo escribió."
     },
     {
       "tipo": "separador",
+      "apariencia": null,
       "estilo": "atarraya"
     },
     {
       "tipo": "columnas",
+      "apariencia": {
+        "fondo": "ficha",
+        "espacio": "normal",
+        "ancho": "normal",
+        "alineacion": "izquierda",
+        "ancla": "",
+        "oculto": false
+      },
       "titulo": "Lo que nos mueve",
       "columnas": [
         {
@@ -78,10 +97,7 @@
           "titulo": "Memoria y apertura",
           "cuerpo": "Lo publicado se cataloga, se conserva y permanece consultable. Escriben estudiantes, docentes, colegios, cantadoras y comunidades."
         }
-      ],
-      "apariencia": {
-        "fondo": "ficha"
-      }
+      ]
     }
   ],
   "en_menu": true,
