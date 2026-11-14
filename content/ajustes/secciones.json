@@ -1,5 +1,26 @@
 {
-  "autores": { "sobretitulo": "Archivo · Autores", "titulo": "Quienes", "tachado": "", "escrito": "escriben", "bajada": "Estudiantes, docentes, colegios, cantadoras y comunidades del sur del Cesar y la ribera del Magdalena.", "bloques": [] },
-  "agenda": { "sobretitulo": "Agenda", "titulo": "Lo que", "tachado": "", "escrito": "viene", "bajada": "Convocatorias, talleres, lecturas públicas y lanzamientos.", "bloques": [] },
-  "bitacora": { "sobretitulo": "Bitácora", "titulo": "Lo que", "tachado": "", "escrito": "pasó", "bajada": "Noticias, crónicas del equipo y resultados de convocatorias.", "bloques": [] }
+  "autores": {
+    "sobretitulo": "Archivo · Autores",
+    "titulo": "Quienes",
+    "tachado": "",
+    "escrito": "escriben",
+    "bajada": "Estudiantes, docentes, colegios, cantadoras y comunidades de todos lados, de donde quiera que usted sea.",
+    "bloques": []
+  },
+  "agenda": {
+    "sobretitulo": "Agenda",
+    "titulo": "Lo que",
+    "tachado": "",
+    "escrito": "viene",
+    "bajada": "Convocatorias, talleres, lecturas públicas y lanzamientos.",
+    "bloques": []
+  },
+  "bitacora": {
+    "sobretitulo": "Bitácora",
+    "titulo": "Lo que",
+    "tachado": "",
+    "escrito": "pasó",
+    "bajada": "Noticias, crónicas del equipo y resultados de convocatorias.",
+    "bloques": []
+  }
 }
