@@ -7,18 +7,7 @@
       "tachado": "debes",
       "escrito": "quieras",
       "intro": "Un espacio de estudiantes para publicar lo irreverente, lo desobediente y lo que escribiste a escondidas. Poesía, cuento, ensayo, crónica y lo que no cabe en ningún género.",
-      "botones": [
-        {
-          "texto": "Envía tu creación",
-          "enlace": "",
-          "estilo": "primario"
-        },
-        {
-          "texto": "Explorar el archivo",
-          "enlace": "/archivo/",
-          "estilo": "contorno"
-        }
-      ],
+      "botones": [],
       "atarraya": true,
       "enmienda_frase": true,
       "pregunta": "¿Qué te dijeron que debías escribir?",
