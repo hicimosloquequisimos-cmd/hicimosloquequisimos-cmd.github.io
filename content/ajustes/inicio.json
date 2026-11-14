@@ -56,8 +56,8 @@
       "botones": [],
       "apariencia": {
         "fondo": "papel",
-        "espacio_arriba": "3",
-        "espacio_abajo": "3",
+        "espacio_arriba": "",
+        "espacio_abajo": "",
         "ancho": "normal",
         "alineacion": "izquierda",
         "ancla": "",
