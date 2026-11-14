@@ -688,3 +688,37 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 .alinear-centro .texto-md, .alinear-centro .enmiendas, .alinear-centro .cifras { margin-inline: auto; }
 .alinear-centro .cifras { justify-content: center; }
 .alinear-centro .texto-md ul { display: inline-block; text-align: left; }
+
+/* Texto gris debajo del título de cualquier bloque */
+.bajada-bloque { font-style: italic; font-size: 1.2rem; line-height: 1.5; color: var(--tinta-suave); max-width: 40rem; margin: -.1rem 0 1.75rem; }
+.alinear-centro .bajada-bloque { margin-inline: auto; }
+.encabezado-seccion .bajada-bloque { margin-bottom: 0; margin-top: .6rem; }
+.cita { margin: 0; }
+.alinear-centro .encabezado-seccion { justify-content: center; flex-direction: column; align-items: center; }
+
+/* Espacio de los bloques: arriba (ea) y abajo (eb) */
+.bloque.ea-0 { padding-top: 0; } .bloque.ea-1 { padding-top: .75rem; } .bloque.ea-2 { padding-top: clamp(1.25rem, 3vw, 2rem); } .bloque.ea-4 { padding-top: clamp(4rem, 10vw, 7rem); }
+.bloque.eb-0 { padding-bottom: 0; } .bloque.eb-1 { padding-bottom: .75rem; } .bloque.eb-2 { padding-bottom: clamp(1.25rem, 3vw, 2rem); } .bloque.eb-4 { padding-bottom: clamp(4rem, 10vw, 7rem); }
+/* El llamado ya no suma relleno propio: el espacio lo da el bloque */
+.bloque--llamado .llamado { padding: 0; }
+/* Pie un poco más pegado */
+.pie { padding-top: 3rem; }
+
+/* Imagen o animación al lado del contenido de un bloque */
+.con-lado { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); grid-template-columns: minmax(0, 1fr) var(--lado, 20rem); }
+.con-lado.tam-p { --lado: 12rem; } .con-lado.tam-m { --lado: 20rem; } .con-lado.tam-g { --lado: 30rem; }
+.con-lado.tam-mitad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.con-lado.lado-izq { grid-template-columns: var(--lado, 20rem) minmax(0, 1fr); }
+.con-lado.lado-izq.tam-mitad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.con-lado.lado-izq .con-lado__media { order: -1; }
+.con-lado__media { margin: 0; }
+.con-lado__media img, .con-lado__media video { width: 100%; height: auto; display: block; }
+.con-lado__media figcaption { font-family: var(--f-archivo); font-size: .7rem; letter-spacing: .06em; color: var(--tinta-suave); margin-top: .5rem; text-align: center; }
+.con-lado__contenido { min-width: 0; }
+@media (max-width: 760px) {
+  .con-lado, .con-lado.lado-izq, .con-lado.tam-mitad { grid-template-columns: 1fr; }
+  .con-lado.lado-izq .con-lado__media { order: 0; }
+  .con-lado__media { max-width: min(70%, 18rem); margin-inline: auto; }
+  .con-lado.sin-movil .con-lado__media { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .con-lado__media video { animation: none; } }
