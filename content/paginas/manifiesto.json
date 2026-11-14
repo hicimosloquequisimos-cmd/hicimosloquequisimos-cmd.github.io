@@ -29,7 +29,7 @@
       "tipo": "enmiendas",
       "apariencia": {
         "fondo": "papel",
-        "espacio": "compacto",
+        "espacio": "normal",
         "ancho": "normal",
         "alineacion": "centro",
         "ancla": "",
