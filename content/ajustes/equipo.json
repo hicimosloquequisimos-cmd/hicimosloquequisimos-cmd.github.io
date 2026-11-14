@@ -52,6 +52,13 @@
       "enlace": ""
     },
     {
+      "nombre": "Eilyn Dayana Paz Patiño",
+      "rol": "Jefa de redes",
+      "foto": "",
+      "bio": "",
+      "enlace": ""
+    },
+    {
       "nombre": "Mariangel Arrieta",
       "rol": "Auxiliar Jefe de redes",
       "foto": "",
@@ -69,28 +76,40 @@
   "bloques": [
     {
       "tipo": "enmiendas",
+      "sobretitulo": "",
+      "apariencia": {
+        "fondo": "ficha",
+        "espacio_arriba": "3",
+        "espacio_abajo": "3",
+        "ancho": "normal",
+        "alineacion": "izquierda",
+        "ancla": "",
+        "oculto": false
+      },
       "titulo": "",
+      "bajada": "",
+      "lado": null,
       "lineas": [
         {
           "antes": "Nos dijeron que escribiéramos",
           "tachado": "como en Bogotá",
-          "escrito": "como en Aguachica"
+          "escrito": "como en Aguachica",
+          "despues": ""
         },
         {
           "antes": "Que la poesía era",
           "tachado": "para otros",
-          "escrito": "para la orilla"
+          "escrito": "para la orilla",
+          "despues": ""
         },
         {
           "antes": "Que lo que cantaba la abuela",
           "tachado": "no era literatura",
-          "escrito": "era archivo"
+          "escrito": "era archivo",
+          "despues": ""
         }
       ],
-      "cierre": "[Leer el manifiesto completo](/manifiesto/)",
-      "apariencia": {
-        "fondo": "ficha"
-      }
+      "cierre": "[Leer el manifiesto completo](/manifiesto/)"
     }
   ]
 }
