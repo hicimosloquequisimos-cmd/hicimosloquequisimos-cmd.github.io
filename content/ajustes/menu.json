@@ -17,7 +17,7 @@
       "enlace": "/equipo-editorial/"
     }
   ],
-  "incluir_paginas": true,
+  "incluir_paginas": false,
   "boton_texto": "Envía tu creación",
   "boton_enlace": ""
 }
