@@ -68,36 +68,6 @@
       "tipo": "separador",
       "apariencia": null,
       "estilo": "atarraya"
-    },
-    {
-      "tipo": "columnas",
-      "apariencia": {
-        "fondo": "ficha",
-        "espacio": "normal",
-        "ancho": "normal",
-        "alineacion": "izquierda",
-        "ancla": "",
-        "oculto": false
-      },
-      "titulo": "Lo que nos mueve",
-      "columnas": [
-        {
-          "titulo": "Libertad creativa",
-          "cuerpo": "Se acoge la experimentación formal y temática sin cánones impuestos."
-        },
-        {
-          "titulo": "Territorio",
-          "cuerpo": "La palabra del río, la ciénaga y el pueblo ocupa el centro del archivo."
-        },
-        {
-          "titulo": "Rigor editorial",
-          "cuerpo": "Cada texto pasa por evaluación, edición y corrección antes de publicarse."
-        },
-        {
-          "titulo": "Memoria y apertura",
-          "cuerpo": "Lo publicado se cataloga, se conserva y permanece consultable. Escriben estudiantes, docentes, colegios, cantadoras y comunidades."
-        }
-      ]
     }
   ],
   "en_menu": true,
