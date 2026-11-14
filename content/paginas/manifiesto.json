@@ -16,7 +16,7 @@
       "apariencia": {
         "fondo": "papel",
         "espacio": "compacto",
-        "ancho": "normal",
+        "ancho": "",
         "alineacion": "centro",
         "ancla": "",
         "oculto": false
