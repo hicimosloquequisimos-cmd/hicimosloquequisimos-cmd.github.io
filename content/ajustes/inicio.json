@@ -49,6 +49,26 @@
       "ver_todo": true
     },
     {
+      "tipo": "llamado",
+      "sobretitulo": "CARA DE LA GACETA",
+      "tachado": "",
+      "escrito": "",
+      "botones": [],
+      "apariencia": null,
+      "titulo": "Conoce a Izy",
+      "bajada": "La dueña de toda la ~~obediencia~~^^recocha^^",
+      "lado": {
+        "archivo": "/media/subidas/Izy_recostada_lentes.gif",
+        "posicion": "izquierda",
+        "tamano": "m",
+        "vertical": "center",
+        "alt": "",
+        "pie": "",
+        "celular": true
+      },
+      "texto": "Ella es Izy, la cara de la gaceta y dueña de todo el desorden que queremos hacer por acá. Ella también quiere ver todo el arte que nos puedes mandar."
+    },
+    {
       "tipo": "texto",
       "sobretitulo": "",
       "apariencia": {
@@ -96,26 +116,6 @@
       "lado": null,
       "etiqueta": "",
       "cantidad": 3
-    },
-    {
-      "tipo": "llamado",
-      "sobretitulo": "CARA DE LA GACETA",
-      "tachado": "obediencia",
-      "escrito": "recocha.",
-      "botones": [],
-      "apariencia": null,
-      "titulo": "Conoce a Izy",
-      "bajada": "La dueña de toda la",
-      "lado": {
-        "archivo": "/media/subidas/Izy_recostada_lentes.gif",
-        "posicion": "izquierda",
-        "tamano": "p",
-        "vertical": "center",
-        "alt": "",
-        "pie": "",
-        "celular": true
-      },
-      "texto": "Ella es Izy, la cara de la gaceta y dueña de todo el desorden que queremos hacer por acá. Ella también quiere ver todo el arte que nos puedes mandar."
     }
   ]
 }
