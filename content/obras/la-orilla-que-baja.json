@@ -11,7 +11,7 @@
   "fecha_escritura": "",
   "municipio": "Aguachica",
   "departamento": "Cesar",
-  "procedencia": "",
+  "procedencia": "Primera convocatoria para la feria",
   "evaluacion": "doble ciego · 2 lectores",
   "licencia": "CC BY-NC-ND 4.0",
   "forma": "verso",
@@ -26,8 +26,17 @@
   "transcripcion": "",
   "video": "",
   "pdf": "",
-  "notas": [],
-  "etiquetas": [],
+  "notas": [
+    {
+      "tipo": "Nota del editor",
+      "texto": "¡Genial forma de expresar la calma que da alguien que ama!"
+    }
+  ],
+  "etiquetas": [
+    {
+      "etiqueta": "amor, mar, calma"
+    }
+  ],
   "destacada": true,
   "ejemplo": false,
   "bloques": [],
