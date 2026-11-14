@@ -1,5 +1,5 @@
 {
-  "titulo": "Envía tu texto",
+  "titulo": "Escribe lo que",
   "url": "envia-tu-texto",
   "sobretitulo": "Convocatoria permanente",
   "tachado": "debes",
@@ -10,6 +10,7 @@
   "bloques": [
     {
       "tipo": "envio",
+      "apariencia": null,
       "titulo": "Envía tu creación",
       "texto": "Recibimos poesía, cuento, formas híbridas, ensayo y crónica. Escribe al correo de la gaceta con el asunto **ENVÍO | GÉNERO | TÍTULO**.\n\nEl botón abre tu correo con la plantilla lista.",
       "requisitos": [
@@ -30,7 +31,16 @@
     },
     {
       "tipo": "ruta",
+      "apariencia": {
+        "fondo": "ficha",
+        "espacio": "normal",
+        "ancho": "normal",
+        "alineacion": "izquierda",
+        "ancla": "",
+        "oculto": false
+      },
       "titulo": "Qué pasa con tu texto",
+      "nota": "el editor propone, el autor decide qué enmiendas acepta",
       "pasos": [
         {
           "titulo": "Recibimos",
@@ -48,14 +58,11 @@
           "titulo": "Publicamos",
           "texto": "Tu obra entra al archivo con su ficha y tu nombre."
         }
-      ],
-      "nota": "el editor propone, el autor decide qué enmiendas acepta",
-      "apariencia": {
-        "fondo": "ficha"
-      }
+      ]
     },
     {
       "tipo": "preguntas",
+      "apariencia": null,
       "titulo": "Preguntas frecuentes",
       "items": [
         {
