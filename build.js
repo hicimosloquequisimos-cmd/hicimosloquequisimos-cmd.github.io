@@ -306,7 +306,7 @@ function privacidad() {
 Cuando entras con tu cuenta de Google guardamos tu **nombre**, tu **correo electrónico** y tu **foto de perfil** de Google, y la fecha en que creaste la cuenta y la última vez que entraste. También guardamos **las obras que te gustan**, **los autores que sigues** y, si eres autor, **tu solicitud para vincular tu perfil**. Nunca recibimos ni guardamos tu contraseña de Google.
 
 ## Para qué los usamos
-- Mostrar tus likes, favoritos y los autores que sigues.
+- Mostrar tus likes, tus obras guardadas y los autores que sigues.
 - Contar los likes y los seguidores de cada obra y cada autor (solo se muestra el número, nunca quién dio like).
 - Avisarte por correo cuando un autor que sigues publica algo nuevo (puedes apagarlo en tu perfil).
 - Verificar que quien pide vincular un perfil de autor sea realmente esa persona.
@@ -420,6 +420,7 @@ function construir() {
           </dl>
           <div class="botones">
             <button class="boton boton--chico boton-like" type="button" data-like="${esc(o.codigo)}" hidden aria-pressed="false">Me gusta</button>
+            <button class="boton boton--chico boton-guardar" type="button" data-guardar="${esc(o.codigo)}" hidden aria-pressed="false">Guardar</button>
             ${o.audio || o.audio_url ? `<a class="boton boton--chico" href="#lectura">${icono('audio')} Escuchar lectura</a>` : ''}
             ${o.autores[0] && autPorSlug[o.autores[0]] ? `<a class="boton boton--chico" href="${link(`/autor/${o.autores[0]}/`)}">${icono('autor')} Ver autor/a</a>` : ''}
             ${o.pdf ? `<a class="boton boton--chico" href="${esc(u(o.pdf))}" download>${icono('descarga')} Descargar PDF</a>` : ''}
@@ -437,7 +438,7 @@ function construir() {
           ${o.audio || o.audio_url ? `<div id="lectura" style="margin-top:2.5rem">${audio({ titulo: 'Lectura en voz', interprete: o.firma, archivo: o.audio, url: o.audio_url, transcripcion: o.transcripcion }, ctx)}</div>` : ''}
           ${o.video ? `<div style="margin-top:2.5rem">${video({ url: o.video }, ctx)}</div>` : ''}
           ${(o.etiquetas || []).length ? `<div class="etiquetas">${o.etiquetas.map(e => `<a href="${link('/archivo/')}?q=${encodeURIComponent(e.etiqueta || e)}">${esc(e.etiqueta || e)}</a>`).join('')}</div>` : ''}
-          <div class="like-final"><span class="mano">¿Te gustó?</span><button class="boton boton--chico boton-like" type="button" data-like="${esc(o.codigo)}" hidden aria-pressed="false">Me gusta</button></div>
+          <div class="like-final"><span class="mano">¿Te gustó?</span><button class="boton boton--chico boton-like" type="button" data-like="${esc(o.codigo)}" hidden aria-pressed="false">Me gusta</button><button class="boton boton--chico boton-guardar" type="button" data-guardar="${esc(o.codigo)}" hidden aria-pressed="false">Guardar</button></div>
           ${o.autores.filter(sl => autPorSlug[sl]).map(sl => cajaAutor(autPorSlug[sl])).join('')}
           <div class="citar"><span class="meta">${icono('ficha', 'icono-inline')} Cómo citar esta obra</span><code data-cita>${esc(cita)}</code> <button class="boton boton--chico" type="button" data-copiar="${esc(cita)}" style="margin-top:.75rem">Copiar cita</button></div>
           <nav class="navegacion-obras" aria-label="Más de la colección">
@@ -552,7 +553,7 @@ function construir() {
 
   // Cuentas de lectores: perfil, privacidad y revisión de solicitudes de autores
   escribir('/perfil/', pagina({
-    titulo: 'Mi perfil', ruta: '/perfil/', descripcion: 'Tus favoritos y los autores que sigues en la gaceta.',
+    titulo: 'Mi perfil', ruta: '/perfil/', descripcion: 'Tus obras guardadas y los autores que sigues en la gaceta.',
     cuerpo: `<section class="bloque"><div class="contenedor" style="max-width:52rem"><div data-perfil-lector><noscript>Necesitas JavaScript para ver tu perfil.</noscript><p class="meta">Cargando…</p></div></div></section>`,
   }));
   if (!paginas.some(p => p.url === '/privacidad/')) escribir('/privacidad/', pagina({

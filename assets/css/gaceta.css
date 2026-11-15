@@ -832,3 +832,17 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 .buscar-autores .meta { margin-top: .8rem; }
 .persona[hidden] { display: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Guardar obra (lista personal, aparte del me gusta) */
+.boton-guardar[hidden] { display: none !important; }
+.boton-guardar { gap: .45rem; }
+.boton-guardar svg { width: .95rem; height: .95rem; color: var(--tinta-suave); }
+.boton-guardar[aria-pressed="true"] { border-color: var(--indigo); background: var(--indigo); color: var(--papel); }
+.boton-guardar[aria-pressed="true"] svg { color: var(--canaguate); }
+[data-tema="oscuro"] .boton-guardar[aria-pressed="true"] { border-color: var(--canaguate); background: transparent; color: var(--canaguate); }
+.like-final .boton-guardar { margin-left: .5rem; }
+
+/* Cuenta de lector vinculada, en la página del autor */
+.lec-cuenta-autor { display: flex; align-items: center; gap: .7rem; margin: 0 0 .9rem; }
+.lec-cuenta-autor b { display: block; font-size: .98rem; }
+.lec-cuenta-autor small { display: block; font-family: var(--f-archivo); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); }

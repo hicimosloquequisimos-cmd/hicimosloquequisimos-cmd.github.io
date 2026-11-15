@@ -1,6 +1,6 @@
 /* =========================================================
    Lectores · Hicimos lo que quisimos
-   Cuentas con Google, likes, favoritos, seguir autores y
+   Cuentas con Google, likes, obras guardadas, seguir autores y
    verificación de autores. Configuración en lectores-config.js
    ========================================================= */
 (function () {
@@ -13,6 +13,7 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var BASE = (document.querySelector('link[rel=icon]') || { getAttribute: function () { return '/favicon.svg'; } }).getAttribute('href').replace(/\/favicon\.svg$/, '');
+  var MARCA = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.2-6.5 4.2v-16a1 1 0 0 1 1-1z" fill="currentColor"/></svg>';
   var CORAZON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.5 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.5 3.3 4.3 6.6-1.8 4.8-9.3 9.4-9.3 9.4z" fill="currentColor"/></svg>';
   var VERIF = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 2l2.4 2.1 3.2-.4.9 3.1 2.8 1.6-1 3.1 1 3.1-2.8 1.6-.9 3.1-3.2-.4L12 22l-2.4-2.1-3.2.4-.9-3.1-2.8-1.6 1-3.1-1-3.1 2.8-1.6.9-3.1 3.2.4z" fill="currentColor"/><path d="M8 12.2l2.6 2.6L16.2 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -67,7 +68,7 @@
   function pedirEntrar(motivo, luego) {
     pendiente = luego || null;
     modal('<p class="sobretitulo">Tu cuenta en la gaceta</p><h2 class="lec-titulo">' + esc(motivo || 'Entra para guardar lo que te gusta') + '</h2>' +
-      '<p class="lec-suave">Con tu cuenta puedes dar like a las obras, guardar tus favoritos y seguir a tus autores para enterarte cuando publiquen. Solo necesitas tu cuenta de Google: no hay contraseñas nuevas.</p>' +
+      '<p class="lec-suave">Con tu cuenta puedes dar like a las obras, guardar las que quieras releer y seguir a tus autores para enterarte cuando publiquen. Solo necesitas tu cuenta de Google: no hay contraseñas nuevas.</p>' +
       '<div class="lec-google" data-google></div><p class="lec-legal">Al entrar aceptas nuestra <a href="' + BASE + '/privacidad/" target="_blank">política de privacidad</a>.</p>', function (m) {
         var caja = $('[data-google]', m);
         if (C.demo) { caja.innerHTML = '<button class="boton boton--indigo" type="button">Continuar con Google (demo)</button>'; $('button', caja).onclick = function () { conCredencial(Demo.credencial()); }; return; }
@@ -89,7 +90,7 @@
   }
   function pedirConsentimiento(cred, r) {
     modal('<p class="sobretitulo">Antes de crear tu cuenta</p><h2 class="lec-titulo">Hola, ' + esc((r.nombre || '').split(' ')[0]) + '</h2>' +
-      '<p class="lec-suave">Para tu cuenta guardamos tu <b>nombre</b>, tu <b>correo</b> y tu <b>foto de Google</b>, junto con tus likes, favoritos y los autores que sigues. Los usamos solo para el funcionamiento de la gaceta y para avisarte de obras nuevas de quienes sigues. No los compartimos con nadie y puedes borrar tu cuenta cuando quieras desde tu perfil.</p>' +
+      '<p class="lec-suave">Para tu cuenta guardamos tu <b>nombre</b>, tu <b>correo</b> y tu <b>foto de Google</b>, junto con tus likes, las obras que guardas y los autores que sigues. Los usamos solo para el funcionamiento de la gaceta y para avisarte de obras nuevas de quienes sigues. No los compartimos con nadie y puedes borrar tu cuenta cuando quieras desde tu perfil.</p>' +
       '<label class="lec-chequeo"><input type="checkbox" data-acepto> Leí y acepto la <a href="' + BASE + '/privacidad/" target="_blank">política de tratamiento de datos</a> de la gaceta.</label>' +
       '<div class="botones" style="margin-top:1.2rem"><button class="boton boton--primario" type="button" data-crear disabled>Crear mi cuenta</button><button class="boton" type="button" data-cerrar>Ahora no</button></div>', function (m) {
         var c = $('[data-acepto]', m), b = $('[data-crear]', m);
@@ -121,7 +122,7 @@
       var l = S.lector || {};
       var m = document.createElement('div'); m.className = 'lec-menu';
       m.innerHTML = '<div class="lec-menu__yo">' + avatar(l) + '<div><b>' + esc(l.nombre) + '</b><small>' + esc(l.correo || '') + '</small></div></div>' +
-        '<a href="' + BASE + '/perfil/">Mi perfil y favoritos</a>' + (l.autor ? '<a href="' + BASE + '/autor/' + esc(l.autor) + '/">Mi página de autor</a>' : '') +
+        '<a href="' + BASE + '/perfil/">Mi perfil y obras guardadas</a>' + (l.autor ? '<a href="' + BASE + '/autor/' + esc(l.autor) + '/">Mi página de autor</a>' : '') +
         (l.admin ? '<a href="' + BASE + '/admin/solicitudes/">Solicitudes de autores</a>' : '') + '<button type="button" data-salir>Salir</button>';
       var r = av.getBoundingClientRect(); m.style.top = (r.bottom + window.scrollY + 8) + 'px'; m.style.right = Math.max(8, window.innerWidth - r.right) + 'px';
       document.body.appendChild(m);
@@ -130,7 +131,7 @@
   });
 
   // ---------- Likes y seguir ----------
-  var ESTADO = { likes: {}, seguidores: {}, verificados: {}, mios: [], sigo: [], solicitudesPendientes: [] };
+  var ESTADO = { likes: {}, seguidores: {}, verificados: {}, mios: [], guardadas: [], sigo: [], solicitudesPendientes: [] };
   function refrescar() {
     var obras = $$('[data-like]').map(function (b) { return b.dataset.like; });
     var autores = $$('[data-autor-acciones]').map(function (b) { return b.dataset.autorAcciones; });
@@ -146,9 +147,24 @@
       b.hidden = false; b.setAttribute('aria-pressed', mio ? 'true' : 'false');
       b.setAttribute('aria-label', (mio ? 'Quitar me gusta' : 'Me gusta') + ' · ' + n);
       b.innerHTML = CORAZON + '<span>' + n + '</span>';
-      b.title = mio ? 'Te gusta · está en tus favoritos' : 'Me gusta';
+      b.title = mio ? 'Te gusta' : 'Me gusta';
+    });
+    $$('[data-guardar]').forEach(function (b) {
+      var g = (ESTADO.guardadas || []).indexOf(b.dataset.guardar) > -1;
+      b.hidden = false; b.setAttribute('aria-pressed', g ? 'true' : 'false');
+      b.innerHTML = MARCA + '<span>' + (g ? 'Guardada' : 'Guardar') + '</span>';
+      b.title = g ? 'Está en tus obras guardadas · quitar' : 'Guardar para leer después';
     });
   }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-guardar]'); if (!b) return;
+    conCuenta('Entra para guardar obras', function () {
+      var o = b.dataset.guardar, si = (ESTADO.guardadas || []).indexOf(o) < 0;
+      ESTADO.guardadas = si ? (ESTADO.guardadas || []).concat(o) : ESTADO.guardadas.filter(function (x) { return x !== o; });
+      pintarLikes();
+      api('guardar', { obra: o, si: si }).then(function () { aviso(si ? 'Guardada en tu perfil' : 'Quitada de tus obras guardadas'); }, function (er) { aviso(er.message); refrescar(); });
+    });
+  });
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-like]'); if (!b) return;
     conCuenta('Entra para dar like', function () {
@@ -157,7 +173,7 @@
       ESTADO.likes[o] = (ESTADO.likes[o] || 0) + (si ? 1 : -1);
       ESTADO.mios = si ? (ESTADO.mios || []).concat(o) : ESTADO.mios.filter(function (x) { return x !== o; });
       pintarLikes(); if (si) { b.classList.remove('lec-late'); void b.offsetWidth; b.classList.add('lec-late'); }
-      api('like', { obra: o, si: si }).then(function (r) { ESTADO.likes[o] = r.total; pintarLikes(); if (si) aviso('Guardada en tus favoritos ♥'); }, function (er) { aviso(er.message); refrescar(); });
+      api('like', { obra: o, si: si }).then(function (r) { ESTADO.likes[o] = r.total; pintarLikes(); if (si) aviso('Te gusta ♥'); }, function (er) { aviso(er.message); refrescar(); });
     });
   });
   function pintarAutores() {
@@ -166,7 +182,8 @@
       var verif = !!(ESTADO.verificados || {})[a], esMio = S.lector && S.lector.autor === a;
       var pend = (ESTADO.solicitudesPendientes || []).indexOf(a) > -1;
       c.hidden = false;
-      c.innerHTML = '<div class="lec-autor">' +
+      var cv = (ESTADO.verificados || {})[a];
+      c.innerHTML = (verif && typeof cv === 'object' && cv.nombre ? '<div class="lec-cuenta-autor">' + avatar(cv) + '<span><b>' + esc(cv.nombre) + '</b><small>Cuenta de lector verificada en la gaceta</small></span></div>' : '') + '<div class="lec-autor">' +
         (verif ? '<span class="lec-verif">' + VERIF + 'Perfil verificado</span>' : '') +
         '<button class="boton boton--chico ' + (sigo ? '' : 'boton--indigo') + '" type="button" data-seguir aria-pressed="' + sigo + '">' + (sigo ? '✓ Siguiendo' : '+ Seguir') + '</button>' +
         '<span class="lec-cuenta"><b>' + n + '</b> ' + (n === 1 ? 'seguidor' : 'seguidores') + '</span>' +
@@ -221,7 +238,7 @@
   // ---------- Página: Mi perfil ----------
   function paginaPerfil(c) {
     if (!S.token) {
-      c.innerHTML = '<div class="vacio"><span class="mano">Tu rincón en la gaceta</span><p>Entra con tu cuenta de Google para ver tus favoritos y los autores que sigues.</p><button class="boton boton--primario" type="button" data-entrar>Entrar</button></div>';
+      c.innerHTML = '<div class="vacio"><span class="mano">Tu rincón en la gaceta</span><p>Entra con tu cuenta de Google para ver tus obras guardadas y los autores que sigues.</p><button class="boton boton--primario" type="button" data-entrar>Entrar</button></div>';
       return;
     }
     c.innerHTML = '<p class="lec-suave">Cargando tu perfil…</p>';
@@ -230,13 +247,13 @@
       S.lector = l; guardar();
       var porCodigo = {}; obras.forEach(function (o) { porCodigo[o.codigo] = o; });
       var porSlug = {}; autores.forEach(function (a) { porSlug[a.slug] = a; });
-      var favs = r.favoritos.map(function (k) { return porCodigo[k]; }).filter(Boolean);
+      var favs = (r.guardadas || []).map(function (k) { return porCodigo[k]; }).filter(Boolean);
       var sig = r.siguiendo.map(function (s) { return porSlug[s]; }).filter(Boolean);
       var html = '<div class="lec-perfil-cab">' + avatar(l, true) + '<div><h1>' + esc(l.nombre) + '</h1><p class="lec-suave">' + esc(l.correo) + (l.autor && porSlug[l.autor] ? ' · <span class="lec-verif">' + VERIF + 'Autor verificado</span>' : '') + '</p>' +
         (l.equipo ? '<p class="lec-equipo">Equipo de la gaceta · ' + esc(l.equipo.miembro) + (l.equipo.rol ? ' · ' + esc(l.equipo.rol) : '') + '</p><div class="botones" style="margin-top:.6rem"><a class="boton boton--chico" href="' + BASE + '/equipo-editorial/">Mi ficha en el equipo</a>' + (l.autor ? '<a class="boton boton--chico" href="' + BASE + '/autor/' + esc(l.autor) + '/">Mi página de autor</a>' : '') + '</div>' : '') +
         '</div></div>';
       if (r.panelAutor) html += '<section class="lec-seccion"><h2>Mi panel de autor</h2><div class="lec-panel" data-panel-autor><p class="lec-suave">Cargando tus cifras…</p></div></section>';
-      html += '<section class="lec-seccion"><h2>Mis favoritos <span class="lec-num">' + favs.length + '</span></h2>' + (favs.length ? '<ul class="lec-lista">' + favs.map(function (o) { return '<li><a href="' + esc(rutaObra(o)) + '"><b>' + esc(o.titulo) + '</b><small>' + esc((o.autores || []).join(', ')) + ' · ' + esc(o.coleccion) + '</small></a><button class="lec-quitar" type="button" data-quitar-like="' + esc(o.codigo) + '" aria-label="Quitar de favoritos">' + CORAZON + '</button></li>'; }).join('') + '</ul>' : '<div class="vacio"><p>Toca el ♥ de las obras que te gusten y aparecerán aquí.</p><a class="boton boton--chico" href="' + BASE + '/archivo/">Explorar el archivo</a></div>') + '</section>';
+      html += '<section class="lec-seccion"><h2>Obras guardadas <span class="lec-num">' + favs.length + '</span></h2>' + (favs.length ? '<ul class="lec-lista">' + favs.map(function (o) { return '<li><a href="' + esc(rutaObra(o)) + '"><b>' + esc(o.titulo) + '</b><small>' + esc((o.autores || []).join(', ')) + ' · ' + esc(o.coleccion) + '</small></a><button class="lec-quitar" type="button" data-quitar-guardada="' + esc(o.codigo) + '" aria-label="Quitar de guardadas" title="Quitar de guardadas">' + MARCA + '</button></li>'; }).join('') + '</ul>' : '<div class="vacio"><p>Toca <b>Guardar</b> en las obras que quieras releer y aparecerán aquí.</p><a class="boton boton--chico" href="' + BASE + '/archivo/">Explorar el archivo</a></div>') + '</section>';
       html += '<section class="lec-seccion"><h2>Autores que sigo <span class="lec-num">' + sig.length + '</span></h2>' + (sig.length ? '<ul class="lec-lista">' + sig.map(function (a) { return '<li><a href="' + BASE + '/autor/' + esc(a.slug) + '/"><b>' + esc(a.nombre) + '</b><small>' + a.obras + (a.obras === 1 ? ' obra' : ' obras') + '</small></a><button class="boton boton--chico" type="button" data-dejar="' + esc(a.slug) + '">Dejar de seguir</button></li>'; }).join('') + '</ul>' : '<div class="vacio"><p>Sigue a tus autores desde su página y te avisaremos cuando publiquen.</p><a class="boton boton--chico" href="' + BASE + '/autores/">Ver autores</a></div>') + '</section>';
       var pendiente = r.solicitudes.filter(function (x) { return x.estado === 'pendiente'; })[0];
       if (!l.autor) html += '<section class="lec-seccion"><h2>Vincular con perfil de autor</h2>' + (pendiente
@@ -247,11 +264,11 @@
         '<div class="botones" style="margin-top:1rem"><button class="boton boton--chico" type="button" data-salir>Salir</button><button class="boton boton--chico lec-peligro" type="button" data-borrar-cuenta>Borrar mi cuenta</button></div>' +
         '<p class="lec-legal">Consulta nuestra <a href="' + BASE + '/privacidad/">política de privacidad</a>.</p></section>';
       c.innerHTML = html;
-      $$('[data-quitar-like]', c).forEach(function (b) { b.onclick = function () { api('like', { obra: b.dataset.quitarLike, si: false }).then(function () { b.closest('li').remove(); aviso('Quitada de tus favoritos'); }); }; });
+      $$('[data-quitar-guardada]', c).forEach(function (b) { b.onclick = function () { api('guardar', { obra: b.dataset.quitarGuardada, si: false }).then(function () { b.closest('li').remove(); aviso('Quitada de tus obras guardadas'); }); }; });
       $$('[data-dejar]', c).forEach(function (b) { b.onclick = function () { api('seguir', { autor: b.dataset.dejar, si: false }).then(function () { b.closest('li').remove(); aviso('Dejaste de seguirlo'); }); }; });
       $('[data-avisos]', c).onchange = function () { var x = this.checked; api('avisos', { si: x }).then(function () { aviso(x ? 'Avisos por correo activados' : 'Avisos por correo apagados'); }); };
       $('[data-borrar-cuenta]', c).onclick = function () {
-        modal('<h2 class="lec-titulo">¿Borrar tu cuenta?</h2><p class="lec-suave">Se borran tus likes, favoritos, los autores que sigues y tus datos. Si eres autor verificado, tu página pierde el sello. <b>No se puede deshacer.</b></p><div class="botones"><button class="boton boton--primario" type="button" data-si>Sí, borrar mi cuenta</button><button class="boton" type="button" data-cerrar>Cancelar</button></div>', function (m) {
+        modal('<h2 class="lec-titulo">¿Borrar tu cuenta?</h2><p class="lec-suave">Se borran tus likes, tus obras guardadas, los autores que sigues y tus datos. Si eres autor verificado, tu página pierde el sello. <b>No se puede deshacer.</b></p><div class="botones"><button class="boton boton--primario" type="button" data-si>Sí, borrar mi cuenta</button><button class="boton" type="button" data-cerrar>Cancelar</button></div>', function (m) {
           $('[data-si]', m).onclick = function () { api('borrarCuenta').then(function () { salirLocal(); cerrarModal(); c.innerHTML = '<div class="vacio"><span class="mano">Tu cuenta fue borrada</span><p>Gracias por leer la gaceta. Puedes volver cuando quieras.</p></div>'; }, function (e) { aviso(e.message); }); };
         });
       };
@@ -359,13 +376,14 @@
           case 'salir': break;
           case 'equipo': exige(); r.equipo = d.equipo; break;
           case 'guardarEquipo': exige(); d.equipo = (p.filas || []).map(function (f) { return { correo: f.correo.toLowerCase(), miembro: f.miembro, rol: f.rol, autor: f.autor }; }); r.equipo = d.equipo; break;
-          case 'estado': r.likes = {}; r.seguidores = {}; r.verificados = {}; r.mios = []; r.sigo = [];
+          case 'estado': r.likes = {}; r.seguidores = {}; r.verificados = {}; r.mios = []; r.sigo = []; d.guard = d.guard || []; r.guardadas = yo ? d.guard.filter(function (x) { return x.l === yo.id; }).map(function (x) { return x.o; }) : [];
             (p.obras || []).forEach(function (o) { r.likes[o] = d.likes.filter(function (x) { return x.o === o; }).length; if (yo && d.likes.some(function (x) { return x.o === o && x.l === yo.id; })) r.mios.push(o); });
-            (p.autores || []).forEach(function (a) { r.seguidores[a] = d.seg.filter(function (x) { return x.a === a; }).length; if (yo && d.seg.some(function (x) { return x.a === a && x.l === yo.id; })) r.sigo.push(a); if (d.ver.some(function (v) { return v.autor === a; })) r.verificados[a] = true; });
+            (p.autores || []).forEach(function (a) { r.seguidores[a] = d.seg.filter(function (x) { return x.a === a; }).length; if (yo && d.seg.some(function (x) { return x.a === a && x.l === yo.id; })) r.sigo.push(a); if (d.ver.some(function (v) { return v.autor === a; })) r.verificados[a] = (function () { var v = d.ver.find(function (x) { return x.autor === a; }); var l = v && d.lectores[v.lectorId]; return { nombre: (l && l.nombre) || (v && v.nombre) || '', foto: '' }; })(); });
             if (yo) { r.lector = pub(yo); r.solicitudesPendientes = d.sol.filter(function (s) { return s.lectorId === yo.id && s.estado === 'pendiente'; }).map(function (s) { return s.autor; }); } break;
+          case 'guardar': exige(); d.guard = (d.guard || []).filter(function (x) { return !(x.o === p.obra && x.l === yo.id); }); if (p.si) d.guard.push({ o: p.obra, l: yo.id, f: Date.now() }); break;
           case 'like': exige(); d.likes = d.likes.filter(function (x) { return !(x.o === p.obra && x.l === yo.id); }); if (p.si) d.likes.push({ o: p.obra, l: yo.id, f: Date.now() }); r.total = d.likes.filter(function (x) { return x.o === p.obra; }).length; break;
           case 'seguir': exige(); d.seg = d.seg.filter(function (x) { return !(x.a === p.autor && x.l === yo.id); }); if (p.si) d.seg.push({ a: p.autor, l: yo.id }); r.total = d.seg.filter(function (x) { return x.a === p.autor; }).length; break;
-          case 'perfil': exige(); r.lector = pub(yo); r.favoritos = d.likes.filter(function (x) { return x.l === yo.id; }).map(function (x) { return x.o; }); r.siguiendo = d.seg.filter(function (x) { return x.l === yo.id; }).map(function (x) { return x.a; }); r.solicitudes = d.sol.filter(function (s) { return s.lectorId === yo.id; }); var v = d.ver.find(function (x) { return x.lectorId === yo.id; }); if (v) r.panelAutor = { autor: v.autor, seguidores: d.seg.filter(function (x) { return x.a === v.autor; }).length }; break;
+          case 'perfil': exige(); r.lector = pub(yo); r.guardadas = (d.guard || []).filter(function (x) { return x.l === yo.id; }).sort(function (a, b) { return b.f - a.f; }).map(function (x) { return x.o; }); r.favoritos = d.likes.filter(function (x) { return x.l === yo.id; }).map(function (x) { return x.o; }); r.siguiendo = d.seg.filter(function (x) { return x.l === yo.id; }).map(function (x) { return x.a; }); r.solicitudes = d.sol.filter(function (s) { return s.lectorId === yo.id; }); var v = d.ver.find(function (x) { return x.lectorId === yo.id; }); if (v) r.panelAutor = { autor: v.autor, seguidores: d.seg.filter(function (x) { return x.a === v.autor; }).length }; break;
           case 'avisos': exige(); yo.avisos = p.si; break;
           case 'borrarCuenta': exige(); delete d.lectores[yo.id]; d.likes = d.likes.filter(function (x) { return x.l !== yo.id; }); d.seg = d.seg.filter(function (x) { return x.l !== yo.id; }); d.ver = d.ver.filter(function (x) { return x.lectorId !== yo.id; }); break;
           case 'solicitar': exige(); var nid = 'SOL-' + Date.now().toString(36).toUpperCase(); if (d.sol.some(function (s) { return s.lectorId === yo.id && s.estado === 'pendiente'; })) throw new Error('Ya tienes una solicitud en revisión.'); d.sol.push({ id: nid, lectorId: yo.id, correo: yo.correo, nombre: yo.nombre, autor: p.autor, autorNombre: (document.querySelector('[data-autor-acciones]') || {}).dataset ? document.querySelector('[data-autor-acciones]').dataset.nombre : p.autor, mensaje: p.mensaje, coincide: /isabel/.test(yo.correo) ? 'ENV-004 · «Ceniza de mayo» (Isabel Sofía Quintero Vargas)' : 'no', estado: 'pendiente', fecha: new Date().toISOString() });  r.solicitud = { id: nid, autor: p.autor, estado: 'pendiente' }; break;
