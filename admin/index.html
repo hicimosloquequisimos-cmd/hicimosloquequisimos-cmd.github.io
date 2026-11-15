@@ -30,8 +30,13 @@
       var b = document.getElementById('hlqq-cuentas-btn'), m = document.getElementById('hlqq-cuentas'), f = m.querySelector('iframe');
       b.onclick = function () { if (!f.src) f.src = f.getAttribute('data-src'); else try { f.contentWindow.location.reload(); } catch (e) { } m.classList.add('abierto'); };
       m.querySelector('[data-cerrar]').onclick = function () { m.classList.remove('abierto'); };
-      m.onclick = function (e) { if (e.target === m) m.classList.remove('abierto'); };
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') m.classList.remove('abierto'); });
+      m.onclick = function (e) { if (e.target === m) m.querySelector('[data-cerrar]').onclick(); };
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && m.classList.contains('abierto')) m.querySelector('[data-cerrar]').onclick(); });
+      // La sección «👥 Cuentas y autores» del menú lateral abre esta ventana
+      var abrir = b.onclick, cerrar = m.querySelector('[data-cerrar]').onclick, desdeMenu = false;
+      function revisar() { if (/\/collections\/cuentas(\/|$)/.test(location.hash)) { if (!m.classList.contains('abierto')) { desdeMenu = true; abrir(); } } }
+      window.addEventListener('hashchange', revisar); setTimeout(revisar, 800);
+      m.querySelector('[data-cerrar]').onclick = function () { cerrar(); if (desdeMenu && /\/collections\/cuentas/.test(location.hash)) { desdeMenu = false; location.hash = '#/collections/obras'; } };
     })();
   </script>
 </body>

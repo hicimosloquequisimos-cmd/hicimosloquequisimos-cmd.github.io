@@ -123,7 +123,7 @@
       var m = document.createElement('div'); m.className = 'lec-menu';
       m.innerHTML = '<div class="lec-menu__yo">' + avatar(l) + '<div><b>' + esc(l.nombre) + '</b><small>' + esc(l.correo || '') + '</small></div></div>' +
         '<a href="' + BASE + '/perfil/">Mi perfil y obras guardadas</a>' + (l.autor ? '<a href="' + BASE + '/autor/' + esc(l.autor) + '/">Mi página de autor</a>' : '') +
-        (l.admin ? '<a href="' + BASE + '/admin/solicitudes/">Solicitudes de autores</a>' : '') + '<button type="button" data-salir>Salir</button>';
+        '<button type="button" data-salir>Salir</button>';
       var r = av.getBoundingClientRect(); m.style.top = (r.bottom + window.scrollY + 8) + 'px'; m.style.right = Math.max(8, window.innerWidth - r.right) + 'px';
       document.body.appendChild(m);
     }
@@ -401,7 +401,13 @@
   refrescar();
   function paginas() {
     var pp = $('[data-perfil-lector]'); if (pp) paginaPerfil(pp);
-    var ps = $('[data-solicitudes-autores]'); if (ps) paginaSolicitudes(ps);
+    var ps = $('[data-solicitudes-autores]');
+    if (ps) {
+      // Solo se usa dentro del panel (/admin/): abierta suelta, manda al panel
+      var enPanel = false; try { enPanel = window.top !== window.self && window.top.location.pathname.indexOf(BASE + '/admin') === 0; } catch (e) { enPanel = false; }
+      if (enPanel) paginaSolicitudes(ps);
+      else { document.documentElement.classList.add('fuera-del-panel'); ps.innerHTML = '<div class="vacio"><span class="mano">Esto vive en el panel</span><p>Las cuentas, las solicitudes de autores y los correos del equipo se manejan solo desde el panel de la gaceta, con el botón «👥 Cuentas y autores».</p><a class="boton boton--primario" href="' + BASE + '/admin/">Ir al panel</a></div>'; }
+    }
   }
   paginas();
 })();
