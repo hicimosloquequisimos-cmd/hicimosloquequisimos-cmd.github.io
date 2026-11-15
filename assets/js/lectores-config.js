@@ -4,10 +4,6 @@
 //   clienteGoogle: el ID de cliente de Google (termina en .apps.googleusercontent.com)
 // Mientras estén vacíos, los botones de cuenta y likes no aparecen en la gaceta.
 window.LECTORES = {
-  servidor: '',
-  clienteGoogle: '',
-};
-window.LECTORES = {
-  servidor: 'aquí la URL que termina en /exec',
-  clienteGoogle: 'aquí el ID que termina en .apps.googleusercontent.com',
+  servidor: 'https://script.google.com/macros/s/AKfycbwGD6uvij_-7H2bxs2HbqakNLT1e8ivpuy0RSKTxFe52jcSEVBQbujvaaHcCAUWtVi1/exec',
+  clienteGoogle: '543226133700-9i5tstqj50ov6t4qmovs885b64f0s44e.apps.googleusercontent.com',
 };
