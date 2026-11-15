@@ -7,3 +7,7 @@ window.LECTORES = {
   servidor: '',
   clienteGoogle: '',
 };
+window.LECTORES = {
+  servidor: 'aquí la URL que termina en /exec',
+  clienteGoogle: 'aquí el ID que termina en .apps.googleusercontent.com',
+};
