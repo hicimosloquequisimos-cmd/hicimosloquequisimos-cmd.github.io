@@ -79,6 +79,9 @@ const autores = leerCarpeta('autores').sort((a, b) => a.nombre.localeCompare(b.n
 const autPorSlug = Object.fromEntries(autores.map(a => [a.slug, a]));
 // Nombre que se muestra en obras y fichas: el seudónimo si lo hay
 const publico = a => (a && (a.seudonimo || a.nombre)) || '';
+// Integrantes del equipo que también publican: nombre del integrante → autor
+const autorDeMiembro = n => autores.find(a => a.equipo && normalizar(a.equipo) === normalizar(n));
+const idMiembro = n => 'equipo-' + slugify(n || '');
 
 const todasObras = leerCarpeta('obras');
 const obras = todasObras
@@ -116,7 +119,7 @@ const bitacora = leerCarpeta('bitacora').filter(e => e.titulo && e.publicada !==
   .map(e => ({ ...e, _fecha: aFecha(e.fecha) || new Date(0), url: `/bitacora/${e.slug}/` }))
   .sort((a, b) => b._fecha - a._fecha);
 
-const RESERVADAS = new Set(['archivo', 'obra', 'coleccion', 'autores', 'autor', 'agenda', 'bitacora', 'equipo-editorial', 'admin', 'assets', 'media', 'buscar']);
+const RESERVADAS = new Set(['archivo', 'obra', 'coleccion', 'autores', 'autor', 'agenda', 'bitacora', 'equipo-editorial', 'admin', 'assets', 'media', 'buscar', 'perfil', 'privacidad']);
 const paginas = leerCarpeta('paginas').filter(p => p.titulo).map(p => {
   let s = slugify(p.url || p.slug) || p.slug;
   if (RESERVADAS.has(s)) { console.warn(`⚠ La página «${p.titulo}» usa una dirección reservada (/${s}/); se cambia a /p-${s}/`); s = 'p-' + s; }
@@ -244,6 +247,7 @@ ${aviso}
       ${menu.boton_texto !== '' ? `<a class="boton boton--envio boton--chico nav__envio" href="${esc(menu.boton_enlace ? href(menu.boton_enlace) : mailto())}">${esc(menu.boton_texto || 'Envía tu creación')}</a>` : ''}
     </nav>
     ${botonEnvio}
+    <div class="cuenta-lector" data-cuenta hidden></div>
     ${marca.modo_oscuro !== false ? `<button class="boton-icono" type="button" data-tema-boton aria-label="Cambiar entre modo claro y oscuro">${icono('luna')}</button>` : ''}
     <button class="boton-icono menu-movil" type="button" aria-controls="nav" aria-expanded="false" data-menu aria-label="Abrir menú">${icono('menu')}</button>
   </div>
@@ -277,6 +281,8 @@ ${cuerpo}
 <div class="visor" data-visor role="dialog" aria-modal="true" aria-label="Imagen ampliada"><button type="button" aria-label="Cerrar">✕</button><figure style="margin:0"><img alt=""><p></p></figure></div>
 <div class="toast" data-toast role="status"></div>
 <script src="${u('/assets/js/gaceta.js')}" defer></script>
+<script src="${u('/assets/js/lectores-config.js')}" defer></script>
+<script src="${u('/assets/js/lectores.js')}" defer></script>
 </body>
 </html>`;
 }
@@ -288,6 +294,36 @@ function cabezaPagina({ sobretitulo, titulo, tachado, escrito, bajada, migas = [
     <h1 class="titular-enmendado">${enLinea(titulo || '')}${tachado ? ` <span class="tacha">${esc(tachado)}</span>` : ''}${escrito ? `<span class="enmienda enmienda--sin-signo">${esc(escrito)}</span>` : ''}</h1>
     ${bajada ? `<p class="bajada">${enLinea(bajada)}</p>` : ''}
   </div></header>`;
+}
+
+// ---------- Política de privacidad (cuentas de lectores) ----------
+function privacidad() {
+  const correo = sitio.correo || 'hicimosloquequisimos@gmail.com';
+  return `## Quiénes somos
+**${sitio.nombre}**, gaceta literaria de la ${sitio.institucion || 'Licenciatura en Literatura y Lengua Castellana'} (Universidad Popular del Cesar, seccional Aguachica), es responsable del tratamiento de los datos de las cuentas de lectores. Contacto: [${correo}](mailto:${correo}).
+
+## Qué datos guardamos
+Cuando entras con tu cuenta de Google guardamos tu **nombre**, tu **correo electrónico** y tu **foto de perfil** de Google, y la fecha en que creaste la cuenta y la última vez que entraste. También guardamos **las obras que te gustan**, **los autores que sigues** y, si eres autor, **tu solicitud para vincular tu perfil**. Nunca recibimos ni guardamos tu contraseña de Google.
+
+## Para qué los usamos
+- Mostrar tus likes, favoritos y los autores que sigues.
+- Contar los likes y los seguidores de cada obra y cada autor (solo se muestra el número, nunca quién dio like).
+- Avisarte por correo cuando un autor que sigues publica algo nuevo (puedes apagarlo en tu perfil).
+- Verificar que quien pide vincular un perfil de autor sea realmente esa persona.
+
+No vendemos ni compartimos tus datos con terceros, ni los usamos para publicidad.
+
+## Dónde se guardan
+En los servicios de Google (Hojas de cálculo y Apps Script) de la cuenta de la gaceta, con acceso solo para el equipo editorial.
+
+## Tus derechos
+Como titular de tus datos puedes **conocerlos, actualizarlos, rectificarlos y pedir que los borremos**, revocar esta autorización y presentar quejas ante la Superintendencia de Industria y Comercio. Puedes **borrar tu cuenta tú mismo** desde [Mi perfil](${u('/perfil/')}) («Borrar mi cuenta»): se eliminan tus datos, likes y seguimientos. Para cualquier otra solicitud, escríbenos a [${correo}](mailto:${correo}); respondemos en un máximo de 15 días hábiles.
+
+## Menores de edad
+Si tienes menos de 18 años, crea tu cuenta con el acompañamiento de tu madre, padre o acudiente.
+
+## Cambios
+Si cambiamos esta política, lo publicaremos en esta página. Última actualización: noviembre de 2026.`;
 }
 
 // ---------- Escritura ----------
@@ -383,6 +419,7 @@ function construir() {
             <dt>Licencia</dt><dd>${esc(o.licencia || 'CC BY-NC-ND 4.0')}</dd>
           </dl>
           <div class="botones">
+            <button class="boton boton--chico boton-like" type="button" data-like="${esc(o.codigo)}" hidden aria-pressed="false">Me gusta</button>
             ${o.audio || o.audio_url ? `<a class="boton boton--chico" href="#lectura">${icono('audio')} Escuchar lectura</a>` : ''}
             ${o.autores[0] && autPorSlug[o.autores[0]] ? `<a class="boton boton--chico" href="${link(`/autor/${o.autores[0]}/`)}">${icono('autor')} Ver autor/a</a>` : ''}
             ${o.pdf ? `<a class="boton boton--chico" href="${esc(u(o.pdf))}" download>${icono('descarga')} Descargar PDF</a>` : ''}
@@ -400,6 +437,7 @@ function construir() {
           ${o.audio || o.audio_url ? `<div id="lectura" style="margin-top:2.5rem">${audio({ titulo: 'Lectura en voz', interprete: o.firma, archivo: o.audio, url: o.audio_url, transcripcion: o.transcripcion }, ctx)}</div>` : ''}
           ${o.video ? `<div style="margin-top:2.5rem">${video({ url: o.video }, ctx)}</div>` : ''}
           ${(o.etiquetas || []).length ? `<div class="etiquetas">${o.etiquetas.map(e => `<a href="${link('/archivo/')}?q=${encodeURIComponent(e.etiqueta || e)}">${esc(e.etiqueta || e)}</a>`).join('')}</div>` : ''}
+          <div class="like-final"><span class="mano">¿Te gustó?</span><button class="boton boton--chico boton-like" type="button" data-like="${esc(o.codigo)}" hidden aria-pressed="false">Me gusta</button></div>
           ${o.autores.filter(sl => autPorSlug[sl]).map(sl => cajaAutor(autPorSlug[sl])).join('')}
           <div class="citar"><span class="meta">${icono('ficha', 'icono-inline')} Cómo citar esta obra</span><code data-cita>${esc(cita)}</code> <button class="boton boton--chico" type="button" data-copiar="${esc(cita)}" style="margin-top:.75rem">Copiar cita</button></div>
           <nav class="navegacion-obras" aria-label="Más de la colección">
@@ -419,7 +457,8 @@ function construir() {
   escribir('/autores/', pagina({
     titulo: 'Autores', ruta: '/autores/', descripcion: 'Quienes escriben en la gaceta.',
     cuerpo: `${cabezaPagina(cabSeccion('autores', { sobretitulo: 'Archivo · Autores', titulo: 'Quienes', escrito: 'escriben', bajada: 'Estudiantes, docentes, colegios, cantadoras y comunidades del sur del Cesar y la ribera del Magdalena.' }))}
-    <section class="bloque" style="padding-top:1rem"><div class="contenedor">${autores.length ? `<div class="personas">${autores.map(a => persona(a, link(`/autor/${a.slug}/`))).join('')}</div>` : '<div class="vacio"><span class="mano">Pronto, sus nombres</span></div>'}</div></section>
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor">${autores.length ? `<div class="buscar-autores"><label class="sr-only" for="buscar-autor">Buscar autor</label><input id="buscar-autor" type="search" data-buscar-autores placeholder="Busca por nombre o seudónimo" autocomplete="off"><p class="meta" data-sin-autores hidden>No encontramos ese nombre. Prueba con otro o con el seudónimo.</p></div>
+    <div class="personas" data-lista-autores>${autores.map(a => persona(a, link(`/autor/${a.slug}/`)).replace('<a class="persona"', `<a class="persona" data-buscar="${esc(normalizar([a.nombre, a.seudonimo, a.municipio].filter(Boolean).join(' ')))}"`)).join('')}</div>` : '<div class="vacio"><span class="mano">Pronto, sus nombres</span></div>'}</div></section>
     ${bloques(secciones.autores?.bloques, ctx)}`,
   }));
   for (const a of autores) {
@@ -431,8 +470,10 @@ function construir() {
         <div><nav class="migas"><a href="${link('/autores/')}">Autores</a></nav><h1>${esc(a.nombre)}</h1>
           ${a.seudonimo ? `<p class="seudonimo">Firma como <span class="mano">${esc(a.seudonimo)}</span></p>` : ''}
           <p class="sobretitulo">${[a.perfil, a.municipio].filter(Boolean).map(esc).join(' · ')}</p>
+          ${(() => { const m = a.equipo && (equipo.miembros || []).find(x => normalizar(x.nombre) === normalizar(a.equipo)); return m ? `<p class="sello-equipo"><a href="${link('/equipo-editorial/')}#${esc(idMiembro(m.nombre))}">Equipo editorial${m.rol ? ' · ' + esc(m.rol) : ''}</a></p>` : ''; })()}
           <div class="texto-md">${md(a.bio, u)}</div>
           <div class="cifras" style="margin-top:2rem"><div class="cifra"><b>${lista.length}</b><span>${lista.length === 1 ? 'obra' : 'obras'}</span></div>${[...new Set(lista.map(o => o.col.nombre))].map(n => `<div class="cifra"><span>${esc(n)}</span></div>`).join('')}</div>
+          <div class="acciones-autor" data-autor-acciones="${esc(a.slug)}" data-nombre="${esc(publico(a) || a.nombre)}" hidden></div>
           ${(a.redes || []).filter(r => r.url).length ? `<div class="botones" style="margin-top:1.5rem">${a.redes.filter(r => r.url).map(r => `<a class="boton boton--chico" href="${esc(r.url)}" target="_blank" rel="noopener">${icono('enlace')} ${esc(r.nombre || 'Enlace')}</a>`).join('')}</div>` : ''}
         </div></div>
         <h2>Sus obras</h2><div class="fichas" style="margin-bottom:4rem">${lista.map(o => ficha(o)).join('') || '<p>Aún no hay obras publicadas.</p>'}</div>
@@ -446,7 +487,7 @@ function construir() {
   escribir('/equipo-editorial/', pagina({
     titulo: equipo.titulo || 'Equipo editorial', ruta: '/equipo-editorial/', descripcion: 'El equipo editorial de la gaceta.',
     cuerpo: `${cabezaPagina({ sobretitulo: 'La gaceta', titulo: equipo.titulo || 'Equipo editorial', bajada: equipo.intro })}
-    <section class="bloque" style="padding-top:1rem"><div class="contenedor"><div class="personas">${(equipo.miembros || []).map(m => persona(m)).join('')}</div></div></section>
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor"><div class="personas">${(equipo.miembros || []).map(m => { const a = autorDeMiembro(m.nombre); return `<div id="${esc(idMiembro(m.nombre))}" class="persona-equipo">${persona(m)}${a ? `<a class="boton boton--chico persona__obras" href="${link(`/autor/${a.slug}/`)}">${icono('autor')} También publica: sus obras</a>` : ''}</div>`; }).join('')}</div></div></section>
     ${bloques(equipo.bloques, ctx)}`,
   }));
 
@@ -509,6 +550,22 @@ function construir() {
     }));
   }
 
+  // Cuentas de lectores: perfil, privacidad y revisión de solicitudes de autores
+  escribir('/perfil/', pagina({
+    titulo: 'Mi perfil', ruta: '/perfil/', descripcion: 'Tus favoritos y los autores que sigues en la gaceta.',
+    cuerpo: `<section class="bloque"><div class="contenedor" style="max-width:52rem"><div data-perfil-lector><noscript>Necesitas JavaScript para ver tu perfil.</noscript><p class="meta">Cargando…</p></div></div></section>`,
+  }));
+  if (!paginas.some(p => p.url === '/privacidad/')) escribir('/privacidad/', pagina({
+    titulo: 'Política de privacidad', ruta: '/privacidad/', descripcion: 'Cómo tratamos los datos de las cuentas de lectores.',
+    cuerpo: `${cabezaPagina({ sobretitulo: 'Tratamiento de datos personales', titulo: 'Tus datos,', escrito: 'con cuidado', bajada: 'Política para las cuentas de lectores de la gaceta, conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013.' })}
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor"><div class="texto-md" style="max-width:var(--ancho-lectura)">${md(privacidad(), u)}</div></div></section>`,
+  }));
+  escribir('/admin/solicitudes/', pagina({
+    titulo: 'Solicitudes de autores', ruta: '/admin/solicitudes/', descripcion: 'Panel del equipo.',
+    cuerpo: `${cabezaPagina({ sobretitulo: 'Plataforma · Panel del equipo', titulo: 'Solicitudes de', escrito: 'autores', bajada: 'Personas que piden vincular su cuenta de lector con su perfil de autor en la gaceta. Revisa cada caso antes de aprobar.', migas: [['Panel', '/admin/']] })}
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor" style="max-width:56rem"><div data-solicitudes-autores><p class="meta">Cargando…</p></div></div></section>`,
+  }));
+
   // 404
   escribir('/404.html', pagina({
     titulo: 'Página no encontrada', ruta: '/404.html',
@@ -542,8 +599,11 @@ function construir() {
 ${[...obras.map(o => ({ t: `${o.titulo} · ${o.firma}`, l: o.url, d: o._fecha, s: o.extractoFinal })), ...bitacora.map(e => ({ t: e.titulo, l: e.url, d: e._fecha, s: e.resumen || '' }))].sort((a, b) => b.d - a.d).slice(0, 40).map(i => `<item><title>${xml(i.t)}</title><link>${xml(abs(i.l))}</link><guid>${xml(abs(i.l))}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${xml(i.s)}</description></item>`).join('\n')}
 </channel></rss>`);
   fs.writeFileSync(path.join(SALIDA, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${escritos.filter(r => r.endsWith('/')).map(r => `<url><loc>${xml(abs(r))}</loc></url>`).join('')}</urlset>`);
-  fs.writeFileSync(path.join(SALIDA, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin/\n${sitio.url ? `Sitemap: ${abs('/sitemap.xml')}\n` : ''}`);
-  fs.writeFileSync(path.join(SALIDA, 'obras.json'), JSON.stringify(obras.map(o => ({ codigo: o.codigo, titulo: o.titulo, autores: o.nombresAutores, coleccion: o.col.nombre, municipio: o.municipio || '', fecha: o.fecha_publicacion, licencia: o.licencia || 'CC BY-NC-ND 4.0', url: abs(o.url) })), null, 1));
+  fs.writeFileSync(path.join(SALIDA, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /perfil/\n${sitio.url ? `Sitemap: ${abs('/sitemap.xml')}\n` : ''}`);
+  fs.writeFileSync(path.join(SALIDA, 'obras.json'), JSON.stringify(obras.map(o => ({ codigo: o.codigo, titulo: o.titulo, autores: o.nombresAutores, autoresSlugs: o.autores, coleccion: o.col.nombre, municipio: o.municipio || '', fecha: o.fecha_publicacion, licencia: o.licencia || 'CC BY-NC-ND 4.0', url: abs(o.url) })), null, 1));
+
+  fs.writeFileSync(path.join(SALIDA, 'equipo.json'), JSON.stringify((equipo.miembros || []).map(m => { const a = autorDeMiembro(m.nombre); return { nombre: m.nombre, rol: m.rol || '', id: idMiembro(m.nombre), autor: a ? a.slug : '' }; }), null, 1));
+  fs.writeFileSync(path.join(SALIDA, 'autores.json'), JSON.stringify(autores.map(a => ({ slug: a.slug, nombre: publico(a) || a.nombre, obras: obras.filter(o => o.autores.includes(a.slug)).length, url: abs(`/autor/${a.slug}/`) })), null, 1));
 
   const borradores = todasObras.length - obras.length;
   console.log(`✓ Sitio generado en ${path.relative(RAIZ, SALIDA) || '.'}/`);

@@ -18,10 +18,14 @@
           "item": "La obra, anónima (sin tu nombre dentro del archivo)."
         },
         {
-          "item": "Ficha de autor: datos, biografía, uso de IA y/o créditos."
+          "item": "Ficha de autor: datos, biografía, uso de IA y/o créditos.",
+          "archivo": "/media/subidas/Ficha_de_autor_Hicimos_lo_que_quisimos.docx",
+          "boton": "Descargar la ficha (Word)"
         },
         {
-          "item": "Licencia de uso no exclusivo, firmada (PDF)."
+          "item": "Licencia de uso no exclusivo, firmada (PDF).",
+          "archivo": "/media/subidas/Licencia_de_uso_no_exclusiva_Hicimos_lo_que_quisimos.docx",
+          "boton": "Descargar la licencia (Word)"
         },
         {
           "item": "Nota de obra (opcional, máximo 150 palabras)."

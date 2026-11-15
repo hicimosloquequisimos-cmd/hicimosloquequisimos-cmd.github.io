@@ -156,3 +156,16 @@
     au.addEventListener('ended', function () { onda.classList.remove('sonando'); });
   });
 })();
+
+// Buscador de la página de Autores
+(function () {
+  var q = document.querySelector('[data-buscar-autores]'); if (!q) return;
+  var fichas = Array.prototype.slice.call(document.querySelectorAll('[data-lista-autores] [data-buscar]'));
+  var nada = document.querySelector('[data-sin-autores]');
+  var norm = function (t) { return String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim(); };
+  q.addEventListener('input', function () {
+    var t = norm(q.value), n = 0;
+    fichas.forEach(function (f) { var si = !t || f.getAttribute('data-buscar').indexOf(t) > -1; f.hidden = !si; if (si) n++; });
+    nada.hidden = n > 0;
+  });
+})();
