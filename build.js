@@ -564,7 +564,8 @@ function construir() {
   escribir('/admin/solicitudes/', pagina({
     titulo: 'Solicitudes de autores', ruta: '/admin/solicitudes/', descripcion: 'Panel del equipo.',
     cuerpo: `${cabezaPagina({ sobretitulo: 'Plataforma · Panel del equipo', titulo: 'Solicitudes de', escrito: 'autores', bajada: 'Personas que piden vincular su cuenta de lector con su perfil de autor en la gaceta. Revisa cada caso antes de aprobar.', migas: [['Panel', '/admin/']] })}
-    <section class="bloque" style="padding-top:1rem"><div class="contenedor" style="max-width:56rem"><div data-solicitudes-autores><p class="meta">Cargando…</p></div></div></section>`,
+    <section class="bloque" style="padding-top:1rem"><div class="contenedor" style="max-width:56rem"><div data-solicitudes-autores><p class="meta">Cargando…</p></div></div></section>
+    <script>if (/[?&]panel=1/.test(location.search)) { document.documentElement.classList.add('en-panel'); document.querySelectorAll('a[href]').forEach(function (a) { if (!a.closest('[data-solicitudes-autores]') || a.hostname !== location.hostname || a.pathname.indexOf('/autor/') > -1) a.target = '_blank'; }); }</script>`,
   }));
 
   // 404

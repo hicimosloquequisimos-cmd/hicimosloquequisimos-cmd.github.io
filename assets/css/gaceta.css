@@ -846,3 +846,7 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 .lec-cuenta-autor { display: flex; align-items: center; gap: .7rem; margin: 0 0 .9rem; }
 .lec-cuenta-autor b { display: block; font-size: .98rem; }
 .lec-cuenta-autor small { display: block; font-family: var(--f-archivo); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); }
+
+/* Página de cuentas abierta dentro del panel */
+.en-panel .cabecera, .en-panel .pie, .en-panel .aviso, .en-panel .saltar, .en-panel .migas { display: none !important; }
+.en-panel main { padding-top: 0; }
