@@ -591,6 +591,14 @@ function construir() {
   conf.logo_url = (sitio.url || '') + '/favicon.svg';
   conf.public_folder = BASE + '/media/subidas';
   fs.writeFileSync(path.join(SALIDA, 'admin', 'config.yml'), JSON.stringify(conf, null, 2));
+  // Cuentas y autores: página propia del panel (con el estilo del panel, no el de la gaceta)
+  fs.mkdirSync(path.join(SALIDA, 'admin', 'cuentas'), { recursive: true });
+  fs.copyFileSync(path.join(RAIZ, 'admin', 'cuentas.css'), path.join(SALIDA, 'admin', 'cuentas', 'cuentas.css'));
+  fs.writeFileSync(path.join(SALIDA, 'admin', 'cuentas', 'index.html'), `<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Cuentas y autores · Panel</title><link rel="icon" type="image/svg+xml" href="${BASE}/favicon.svg"><link rel="stylesheet" href="${BASE}/admin/cuentas/cuentas.css?v=${Date.now()}"></head>
+<body><main id="contenido"><div data-solicitudes-autores><p class="lec-suave">Cargando…</p></div></main><div class="toast" data-toast role="status" aria-live="polite"></div>
+<script src="${u('/assets/js/lectores-config.js')}"></script><script src="${u('/assets/js/lectores.js')}"></script></body></html>`);
   fs.writeFileSync(path.join(SALIDA, 'admin', 'index.html'), fs.readFileSync(path.join(RAIZ, 'admin', 'index.html'), 'utf8').replace(/\{\{BASE\}\}/g, BASE));
 
   // Feed RSS, sitemap y datos abiertos

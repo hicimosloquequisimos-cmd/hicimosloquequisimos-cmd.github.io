@@ -13,18 +13,18 @@
   <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
   <!-- Cuentas de lectores, solicitudes de autores y correos del equipo, dentro del panel -->
   <style>
-    #hlqq-cuentas-btn { position: fixed; left: 14px; bottom: 14px; z-index: 2147483000; display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1rem; border: 0; border-radius: 999px; background: #1E2747; color: #F1E9D8; font: 600 13px/1 system-ui, sans-serif; letter-spacing: .02em; box-shadow: 0 6px 18px rgba(0,0,0,.35); cursor: pointer; }
-    #hlqq-cuentas-btn:hover { background: #D7372B; }
-    #hlqq-cuentas-btn b { background: #F2B33D; color: #1E2747; border-radius: 999px; padding: .15rem .45rem; font-size: 11px; }
-    #hlqq-cuentas { position: fixed; inset: 0; z-index: 2147483001; background: rgba(15,20,40,.55); display: none; }
+    #hlqq-cuentas-btn { position: fixed; left: 12px; bottom: 12px; z-index: 2147483000; padding: 6px 12px; border: 1px solid rgba(128,128,140,.35); border-radius: 6px; background: Canvas; color: CanvasText; font: 500 13px/1.4 system-ui, sans-serif; cursor: pointer; opacity: .85; }
+    #hlqq-cuentas-btn:hover { opacity: 1; }
+    #hlqq-cuentas { position: fixed; inset: 0; z-index: 2147483001; background: rgba(0,0,0,.45); display: none; color-scheme: light dark; }
     #hlqq-cuentas.abierto { display: block; }
-    #hlqq-cuentas .caja { position: absolute; inset: 3vh 3vw; background: #F1E9D8; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
-    #hlqq-cuentas .barra { display: flex; align-items: center; justify-content: space-between; padding: .7rem 1rem; background: #1E2747; color: #F1E9D8; font: 600 14px system-ui, sans-serif; }
-    #hlqq-cuentas .barra button { border: 0; background: transparent; color: inherit; font-size: 20px; cursor: pointer; }
+    #hlqq-cuentas .caja { position: absolute; inset: 2.5vh 2.5vw; background: Canvas; color: CanvasText; border: 1px solid rgba(128,128,140,.35); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+    #hlqq-cuentas .barra { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 18px; border-bottom: 1px solid rgba(128,128,140,.3); font: 600 14px system-ui, sans-serif; }
+    #hlqq-cuentas .barra button { border: 0; background: transparent; color: inherit; font-size: 18px; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; }
+    #hlqq-cuentas .barra button:hover { background: rgba(128,128,140,.2); }
     #hlqq-cuentas iframe { flex: 1; width: 100%; border: 0; }
   </style>
-  <button id="hlqq-cuentas-btn" type="button" title="Solicitudes de autores y correos del equipo">👥 Cuentas y autores</button>
-  <div id="hlqq-cuentas" role="dialog" aria-label="Cuentas y autores"><div class="caja"><div class="barra"><span>Cuentas de lectores · Solicitudes de autores · Equipo de la gaceta</span><button type="button" aria-label="Cerrar" data-cerrar>✕</button></div><iframe title="Cuentas y autores" data-src="{{BASE}}/admin/solicitudes/?panel=1"></iframe></div></div>
+  <button id="hlqq-cuentas-btn" type="button" title="Solicitudes de autores y correos del equipo">Cuentas y autores</button>
+  <div id="hlqq-cuentas" role="dialog" aria-label="Cuentas y autores"><div class="caja"><div class="barra"><span>Cuentas y autores</span><button type="button" aria-label="Cerrar" data-cerrar>✕</button></div><iframe title="Cuentas y autores" data-src="{{BASE}}/admin/cuentas/"></iframe></div></div>
   <script>
     (function () {
       var b = document.getElementById('hlqq-cuentas-btn'), m = document.getElementById('hlqq-cuentas'), f = m.querySelector('iframe');
@@ -32,7 +32,7 @@
       m.querySelector('[data-cerrar]').onclick = function () { m.classList.remove('abierto'); };
       m.onclick = function (e) { if (e.target === m) m.querySelector('[data-cerrar]').onclick(); };
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && m.classList.contains('abierto')) m.querySelector('[data-cerrar]').onclick(); });
-      // La sección «👥 Cuentas y autores» del menú lateral abre esta ventana
+      // La sección «Cuentas y autores» del menú lateral abre esta ventana
       var abrir = b.onclick, cerrar = m.querySelector('[data-cerrar]').onclick, desdeMenu = false;
       function revisar() { if (/\/collections\/cuentas(\/|$)/.test(location.hash)) { if (!m.classList.contains('abierto')) { desdeMenu = true; abrir(); } } }
       window.addEventListener('hashchange', revisar); setTimeout(revisar, 800);
