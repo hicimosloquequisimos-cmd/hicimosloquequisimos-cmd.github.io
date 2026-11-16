@@ -23,7 +23,7 @@
           "boton": "Descargar plantilla"
         },
         {
-          "item": "Ficha de autor: datos, biografía, uso de IA y/o créditos.",
+          "item": "Ficha de autor en Word: datos, biografía, uso de IA y/o créditos.",
           "archivo": "/media/subidas/Ficha_de_autor_Hicimos_lo_que_quisimos.docx",
           "boton": "Descargar la ficha (Word)"
         },
@@ -33,12 +33,25 @@
           "boton": "Descargar la licencia (Word)"
         },
         {
-          "item": "Nota de obra (opcional, máximo 150 palabras).",
+          "item": "Nota de obra (hasta 150 palabras; obligatoria en otros formatos).",
           "archivo": "",
           "boton": "Descargar plantilla"
         }
       ],
-      "boton": "Formulario"
+      "boton": "Formulario",
+      "titulo_manuales": "Manuales para autores",
+      "manuales": [
+        {
+          "titulo": "Manual de autor: textos",
+          "descripcion": "Poesía, cuento, crónica, ensayo y demás textos escritos.",
+          "archivo": "/media/subidas/Manual_de_autor_textos.pdf"
+        },
+        {
+          "titulo": "Manual de autor: otros formatos",
+          "descripcion": "Obras visuales, sonoras, audiovisuales, digitales e híbridas.",
+          "archivo": "/media/subidas/Manual_de_autor_otros_formatos.pdf"
+        }
+      ]
     },
     {
       "tipo": "ruta",

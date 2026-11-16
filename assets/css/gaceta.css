@@ -884,3 +884,12 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 [data-tema="oscuro"] .campo-envio input:focus, [data-tema="oscuro"] .campo-envio select:focus, [data-tema="oscuro"] .campo-envio textarea:focus { outline-color: var(--canaguate); }
 [data-tema="oscuro"] .paso-envio legend span { background: var(--canaguate); color: var(--noche); }
 [data-tema="oscuro"] .form-envio__estado.error { color: #FF8A7E; }
+
+/* Manuales para autores */
+.manuales-envio__texto { margin: .4rem 0 .8rem; color: var(--tinta-suave); }
+.manuales-envio__lista { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .6rem; }
+.manuales-envio__lista a { display: flex; gap: .7rem; align-items: flex-start; text-decoration: none; color: var(--tinta); padding: .7rem .8rem; border: 1px solid var(--linea); border-radius: 6px; background: var(--fondo); }
+.manuales-envio__lista a:hover { border-color: var(--rojo); }
+.manuales-envio__lista svg { flex: none; margin-top: .2rem; }
+.manuales-envio__lista b { display: block; }
+.manuales-envio__lista small { display: block; color: var(--tinta-suave); font-size: .85rem; }

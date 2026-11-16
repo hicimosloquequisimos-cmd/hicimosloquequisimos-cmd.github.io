@@ -449,6 +449,10 @@
     window.addEventListener('hashchange', function () { if (location.hash === '#formulario') abrir(); });
     var est = $('[data-estado-envio]', f), MAX = 20 * 1024 * 1024;
     var leer = function (file) { return new Promise(function (ok, mal) { var r = new FileReader(); r.onload = function () { ok(String(r.result).split(',')[1] || ''); }; r.onerror = function () { mal(new Error('No se pudo leer ' + file.name + '.')); }; r.readAsDataURL(file); }); };
+    var selG = f.elements.genero, etq = $('[data-nota-etiqueta]', f), campo = $('[data-nota-campo]', f);
+    var pideNota = function () { var o = selG && selG.options[selG.selectedIndex]; return !!(o && o.dataset.nota); };
+    var marcarNota = function () { var si = pideNota(); f.elements.nota.required = si; if (etq) etq.textContent = si ? '(obligatoria para este formato)' : '(opcional en textos)'; if (campo) campo.textContent = 'Nota de obra (máximo 150 palabras)' + (si ? ' *' : ''); };
+    if (selG) { selG.addEventListener('change', marcarNota); marcarNota(); }
     f.addEventListener('input', function () { if (est.classList.contains('error')) { est.textContent = ''; est.className = 'meta form-envio__estado'; } });
     f.addEventListener('submit', function (e) {
       e.preventDefault(); est.className = 'meta form-envio__estado';
@@ -460,17 +464,22 @@
       if (!err && enlace && !/^https?:\/\/\S+\.\S+/.test(enlace)) err = 'Revisa el enlace de la obra: debe empezar por https://';
       if (!err && !f.elements.obra.files[0] && !enlace) err = 'Sube el archivo de la obra o pega su enlace.';
       if (!err && archivos.some(function (a) { return !a.file; })) err = 'Adjunta la ficha y la licencia.';
+      var fiF = f.elements.ficha.files[0];
+      if (!err && fiF && !/\.docx?$/i.test(fiF.name)) err = 'La ficha de autor debe estar en Word (.docx o .doc).';
+      var licF = f.elements.licencia.files[0];
+      if (!err && licF && !/\.pdf$/i.test(licF.name)) err = 'La licencia firmada debe estar en PDF.';
       var otros = f.elements.otros ? Array.prototype.slice.call(f.elements.otros.files || []) : [];
       if (!err && otros.length > 5) err = 'En «Otros» puedes subir hasta 5 archivos.';
       var total = archivos.concat(otros.map(function (x) { return { file: x }; })).reduce(function (n, a) { return n + (a.file ? a.file.size : 0); }, 0);
       if (!err && total > MAX) err = 'Los archivos pesan más de 20 MB en total.';
       var nota = String(d.get('nota') || '');
+      if (!err && pideNota() && !nota.trim()) err = 'Las obras de otros formatos llevan nota de obra: escríbela en el paso 6.';
       if (!err && nota.trim().split(/\s+/).filter(Boolean).length > 150) err = 'La nota de obra tiene más de 150 palabras.';
       if (!err && !f.elements.acepto.checked) err = 'Marca la casilla de autoría y tratamiento de datos.';
       if (err) { est.textContent = err; est.classList.add('error'); return; }
       var btn = $('button[type=submit]', f); btn.disabled = true; est.textContent = 'Enviando tus archivos… no cierres esta página.';
       Promise.all(archivos.concat(otros.map(function (x) { return { tipo: 'otro', file: x }; })).map(function (a) { return leer(a.file).then(function (b64) { return { tipo: a.tipo, nombre: a.file.name, mime: a.file.type || '', b64: b64 }; }); }))
-        .then(function (adj) { return api('enviarObra', { nombre: val('nombre'), correo: val('correo'), genero: val('genero'), titulo: val('titulo'), enlace: enlace, nota: nota, acepto: true, sitio_web: val('sitio_web'), archivos: adj }); })
+        .then(function (adj) { return api('enviarObra', { nombre: val('nombre'), correo: val('correo'), genero: val('genero'), titulo: val('titulo'), enlace: enlace, nota: nota, mensaje: String(d.get('mensaje') || ''), acepto: true, sitio_web: val('sitio_web'), archivos: adj }); })
         .then(function () {
           f.outerHTML = '<div class="envio-listo" role="status"><p class="sobretitulo">Envío recibido</p><h3>¡Gracias! Recibimos «' + esc(val('titulo')) + '»</h3><p>Llegó al correo de la gaceta con tus tres archivos. Cuando lo registremos te escribiremos a <b>' + esc(val('correo')) + '</b> (revisa también la carpeta de spam).</p></div>';
         }, function (e2) { btn.disabled = false; est.textContent = e2.message + ' Si sigue fallando, escríbenos al correo.'; est.classList.add('error'); });
