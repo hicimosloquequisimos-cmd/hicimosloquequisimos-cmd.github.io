@@ -858,7 +858,7 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 @media (max-width: 640px) { .form-envio__fila { grid-template-columns: 1fr; } }
 .campo-envio { display: grid; gap: .3rem; }
 .campo-envio span { font-family: var(--f-archivo); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); }
-.campo-envio input, .campo-envio select, .campo-envio textarea { font: inherit; font-size: 1rem; color: var(--tinta); background: var(--papel); border: 1px solid var(--linea); border-radius: 6px; padding: .6rem .75rem; width: 100%; }
+.campo-envio input, .campo-envio select, .campo-envio textarea { font: inherit; font-size: 1rem; color: var(--tinta); background: var(--fondo); border: 1px solid var(--linea); border-radius: 6px; padding: .6rem .75rem; width: 100%; }
 .campo-envio input[type=file] { padding: .5rem; background: transparent; }
 .campo-envio input:focus, .campo-envio select:focus, .campo-envio textarea:focus { outline: 2px solid var(--rojo); outline-offset: 1px; }
 .campo-envio--trampa { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
@@ -866,10 +866,10 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 .chequeo-envio input { margin-top: .3rem; }
 .form-envio__estado { min-height: 1.2em; margin: 0; }
 .form-envio__estado.error { color: var(--rojo); }
-.envio-listo { padding: 1.5rem; border: 1px solid var(--linea); background: var(--papel); }
+.envio-listo { padding: 1.5rem; border: 1px solid var(--linea); background: var(--superficie); }
 .envio-listo h3 { margin: 0 0 .4rem; }
 
-.paso-envio { border: 1px solid var(--linea); border-radius: 8px; padding: 1rem 1.1rem 1.1rem; margin: 0; display: grid; gap: .8rem; background: var(--papel); }
+.paso-envio { border: 1px solid var(--linea); border-radius: 8px; padding: 1rem 1.1rem 1.1rem; margin: 0; display: grid; gap: .8rem; background: var(--superficie); }
 .paso-envio legend { padding: 0 .4rem; font-weight: 600; display: flex; align-items: center; gap: .5rem; }
 .paso-envio legend span { display: inline-flex; width: 1.6rem; height: 1.6rem; border-radius: 50%; align-items: center; justify-content: center; background: var(--rojo); color: #fff; font-size: .85rem; }
 .paso-envio legend small { font-weight: 400; color: var(--tinta-suave); }
@@ -878,3 +878,9 @@ a.tarjeta:hover { color: var(--tinta); transform: translateY(-2px); }
 #formulario { scroll-margin-top: 6rem; }
 
 .paso-envio__ayuda--chica { font-size: .85rem; }
+
+/* Formulario en modo oscuro: controles nativos (selector de archivos, listas) en oscuro y foco visible */
+[data-tema="oscuro"] .form-envio { color-scheme: dark; }
+[data-tema="oscuro"] .campo-envio input:focus, [data-tema="oscuro"] .campo-envio select:focus, [data-tema="oscuro"] .campo-envio textarea:focus { outline-color: var(--canaguate); }
+[data-tema="oscuro"] .paso-envio legend span { background: var(--canaguate); color: var(--noche); }
+[data-tema="oscuro"] .form-envio__estado.error { color: #FF8A7E; }
