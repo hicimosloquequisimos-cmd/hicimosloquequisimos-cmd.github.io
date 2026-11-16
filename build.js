@@ -192,6 +192,8 @@ const RED_ICONO = { instagram: 'instagram', x: 'x', tiktok: 'tiktok', facebook: 
 const redes = () => `<div class="redes">${(sitio.redes || []).filter(r => r.url).map(r => `<a href="${esc(r.url)}" target="_blank" rel="noopener" aria-label="${esc(r.red)} ${esc(r.usuario || '')}">${icono(RED_ICONO[r.red] || 'web')}</a>`).join('')}</div>`;
 
 const numCodigo = o => { const m = String(o.codigo || '').match(/(\d+)/); return m ? +m[1] : 1e9; };
+// Cada publicación cambia este número: así los navegadores bajan siempre la versión nueva del estilo y del código
+const VERSION_ARCHIVOS = Date.now().toString(36);
 const ctx = { numCodigo, u, link, href, mailto, firmaEnlazada, obras, colecciones, autores, agenda, bitacora, equipo, sitio, estadisticas, ficha, persona, evento, entrada, redes };
 
 // ---------- Plantilla general ----------
@@ -231,7 +233,7 @@ ${imgAbs ? `<meta property="og:image" content="${esc(imgAbs)}"><meta name="twitt
 <link rel="alternate" type="application/rss+xml" title="${esc(sitio.nombre)}" href="${u('/feed.xml')}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap">
-<link rel="stylesheet" href="${u('/assets/css/gaceta.css')}">
+<link rel="stylesheet" href="${u('/assets/css/gaceta.css')}?v=${VERSION_ARCHIVOS}">
 ${vars ? `<style>:root{${vars}}</style>` : ''}
 <script>try{var t=localStorage.getItem('tema');if(t)document.documentElement.dataset.tema=t;}catch(e){}</script>
 ${sitio.codigo_cabecera || ''}
@@ -280,9 +282,9 @@ ${cuerpo}
 </footer>
 <div class="visor" data-visor role="dialog" aria-modal="true" aria-label="Imagen ampliada"><button type="button" aria-label="Cerrar">✕</button><figure style="margin:0"><img alt=""><p></p></figure></div>
 <div class="toast" data-toast role="status"></div>
-<script src="${u('/assets/js/gaceta.js')}" defer></script>
-<script src="${u('/assets/js/lectores-config.js')}" defer></script>
-<script src="${u('/assets/js/lectores.js')}" defer></script>
+<script src="${u('/assets/js/gaceta.js')}?v=${VERSION_ARCHIVOS}" defer></script>
+<script src="${u('/assets/js/lectores-config.js')}?v=${VERSION_ARCHIVOS}" defer></script>
+<script src="${u('/assets/js/lectores.js')}?v=${VERSION_ARCHIVOS}" defer></script>
 </body>
 </html>`;
 }
@@ -598,7 +600,7 @@ function construir() {
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
 <title>Cuentas y autores · Panel</title><link rel="icon" type="image/svg+xml" href="${BASE}/favicon.svg"><link rel="stylesheet" href="${BASE}/admin/cuentas/cuentas.css?v=${Date.now()}"></head>
 <body><main id="contenido"><div data-solicitudes-autores><p class="lec-suave">Cargando…</p></div></main><div class="toast" data-toast role="status" aria-live="polite"></div>
-<script src="${u('/assets/js/lectores-config.js')}"></script><script src="${u('/assets/js/lectores.js')}"></script></body></html>`);
+<script src="${u('/assets/js/lectores-config.js')}?v=${VERSION_ARCHIVOS}"></script><script src="${u('/assets/js/lectores.js')}?v=${VERSION_ARCHIVOS}"></script></body></html>`);
   fs.writeFileSync(path.join(SALIDA, 'admin', 'index.html'), fs.readFileSync(path.join(RAIZ, 'admin', 'index.html'), 'utf8').replace(/\{\{BASE\}\}/g, BASE));
 
   // Feed RSS, sitemap y datos abiertos
