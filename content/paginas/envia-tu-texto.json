@@ -18,7 +18,7 @@
       "texto": "Recibimos poesía, cuento, formas híbridas y toda forma de expresión que se te ocurra. Escribe al correo de la gaceta con los documentos necesarios o dale al siguiente botón.\n\nEl botón te lleva a un formulario para hacer el proceso directamente desde ahí.",
       "requisitos": [
         {
-          "item": "La obra, anónima (sin tu nombre dentro del archivo).",
+          "item": "La obra, anónima (sin tu nombre en ninguna lado).",
           "archivo": "",
           "boton": "Descargar plantilla"
         },
