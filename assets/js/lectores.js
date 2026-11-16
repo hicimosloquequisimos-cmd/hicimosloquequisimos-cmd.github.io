@@ -412,6 +412,7 @@
         switch (p.accion) {
           case 'entrar': { var c = p.credencial.slice(5), id = 'g' + c; if (!d.lectores[id] && !p.acepto) return Promise.resolve({ ok: true, necesitaAceptar: true, nombre: c.split('@')[0] }); d.lectores[id] = d.lectores[id] || { id: id, correo: c, nombre: c.split('@')[0].replace(/\./g, ' ').replace(/\b\w/g, function (x) { return x.toUpperCase(); }), avisos: true }; if (d.lectores[id].estado === 'suspendida') throw new Error('Tu cuenta está suspendida' + (d.lectores[id].motivo ? ': ' + d.lectores[id].motivo : '.')); d.lectores[id].creado = d.lectores[id].creado || new Date().toISOString(); d.lectores[id].ultima = new Date().toISOString(); var t = 't' + Date.now(); d.sesiones = d.sesiones || {}; d.sesiones[t] = id; r.token = t; r.lector = pub(d.lectores[id]); break; }
           case 'salir': break;
+          case 'enviarObra': if (!p.archivos || p.archivos.filter(function (a) { return a.tipo !== 'otro'; }).length < (p.enlace ? 2 : 3)) throw new Error('Faltan archivos.'); (d.envios = d.envios || []).push({ titulo: p.titulo, correo: p.correo, fecha: new Date().toISOString() }); break;
           case 'equipo': exige(); r.equipo = d.equipo; break;
           case 'consola': exige(); if (d.admins.indexOf(yo.correo) < 0) throw new Error('Tu cuenta no tiene permiso para revisar solicitudes.'); r.solicitudes = d.sol.slice().reverse(); r.verificados = d.ver; r.administradores = d.admins; r.equipo = d.equipo;
             r.cuentas = Object.keys(d.lectores).map(function (k) { var l = d.lectores[k]; var v = d.ver.find(function (x) { return x.lectorId === l.id; }); var e = (d.equipo || []).find(function (x) { return x.correo === l.correo; }); return { id: l.id, nombre: l.nombre, correo: l.correo, foto: '', creado: l.creado || '', ultimaVisita: l.ultima || '', estado: l.estado || 'activa', motivo: l.motivo || '', likes: d.likes.filter(function (x) { return x.l === l.id; }).length, guardadas: (d.guard || []).filter(function (x) { return x.l === l.id; }).length, sigue: d.seg.filter(function (x) { return x.l === l.id; }).length, autor: v ? v.autor : '', equipo: e ? e.miembro : '', admin: d.admins.indexOf(l.correo) > -1 }; });
@@ -439,9 +440,47 @@
       Demo.guardar(d); return Promise.resolve(r);
     },
   };
+  // ---------- Formulario de envío de obras ----------
+  function formularioEnvio(f) {
+    var alt = $('[data-envio-correo]'); if (alt) alt.hidden = true; var o = $('[data-envio-o]'); if (o) o.hidden = false;
+    var caja = $('[data-abrir-envio-caja]'), abrir = function () { f.hidden = false; if (caja) caja.hidden = true; f.scrollIntoView({ behavior: 'smooth', block: 'start' }); var p = $('input[name=nombre]', f); if (p) setTimeout(function () { p.focus({ preventScroll: true }); }, 400); };
+    if (caja) { caja.hidden = false; $('[data-abrir-envio]', caja).onclick = abrir; } else f.hidden = false;
+    if (location.hash === '#formulario') abrir();
+    window.addEventListener('hashchange', function () { if (location.hash === '#formulario') abrir(); });
+    var est = $('[data-estado-envio]', f), MAX = 20 * 1024 * 1024;
+    var leer = function (file) { return new Promise(function (ok, mal) { var r = new FileReader(); r.onload = function () { ok(String(r.result).split(',')[1] || ''); }; r.onerror = function () { mal(new Error('No se pudo leer ' + file.name + '.')); }; r.readAsDataURL(file); }); };
+    f.addEventListener('input', function () { if (est.classList.contains('error')) { est.textContent = ''; est.className = 'meta form-envio__estado'; } });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); est.className = 'meta form-envio__estado';
+      var d = new FormData(f), err = '', val = function (k) { return String(d.get(k) || '').trim(); };
+      if (!val('nombre') || !val('correo') || !val('genero') || !val('titulo')) err = 'Completa todos los campos marcados con *.';
+      else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val('correo'))) err = 'Revisa tu correo: parece que le falta algo.';
+      var enlace = val('enlace');
+      var archivos = ['obra', 'ficha', 'licencia'].map(function (k) { return { tipo: k, file: f.elements[k].files[0] }; }).filter(function (a) { return a.file || a.tipo !== 'obra' || !enlace; });
+      if (!err && enlace && !/^https?:\/\/\S+\.\S+/.test(enlace)) err = 'Revisa el enlace de la obra: debe empezar por https://';
+      if (!err && !f.elements.obra.files[0] && !enlace) err = 'Sube el archivo de la obra o pega su enlace.';
+      if (!err && archivos.some(function (a) { return !a.file; })) err = 'Adjunta la ficha y la licencia.';
+      var otros = f.elements.otros ? Array.prototype.slice.call(f.elements.otros.files || []) : [];
+      if (!err && otros.length > 5) err = 'En «Otros» puedes subir hasta 5 archivos.';
+      var total = archivos.concat(otros.map(function (x) { return { file: x }; })).reduce(function (n, a) { return n + (a.file ? a.file.size : 0); }, 0);
+      if (!err && total > MAX) err = 'Los archivos pesan más de 20 MB en total.';
+      var nota = String(d.get('nota') || '');
+      if (!err && nota.trim().split(/\s+/).filter(Boolean).length > 150) err = 'La nota de obra tiene más de 150 palabras.';
+      if (!err && !f.elements.acepto.checked) err = 'Marca la casilla de autoría y tratamiento de datos.';
+      if (err) { est.textContent = err; est.classList.add('error'); return; }
+      var btn = $('button[type=submit]', f); btn.disabled = true; est.textContent = 'Enviando tus archivos… no cierres esta página.';
+      Promise.all(archivos.concat(otros.map(function (x) { return { tipo: 'otro', file: x }; })).map(function (a) { return leer(a.file).then(function (b64) { return { tipo: a.tipo, nombre: a.file.name, mime: a.file.type || '', b64: b64 }; }); }))
+        .then(function (adj) { return api('enviarObra', { nombre: val('nombre'), correo: val('correo'), genero: val('genero'), titulo: val('titulo'), enlace: enlace, nota: nota, acepto: true, sitio_web: val('sitio_web'), archivos: adj }); })
+        .then(function () {
+          f.outerHTML = '<div class="envio-listo" role="status"><p class="sobretitulo">Envío recibido</p><h3>¡Gracias! Recibimos «' + esc(val('titulo')) + '»</h3><p>Llegó al correo de la gaceta con tus tres archivos. Cuando lo registremos te escribiremos a <b>' + esc(val('correo')) + '</b> (revisa también la carpeta de spam).</p></div>';
+        }, function (e2) { btn.disabled = false; est.textContent = e2.message + ' Si sigue fallando, escríbenos al correo.'; est.classList.add('error'); });
+    });
+  }
+
   // ---------- Arranque ----------
   pintarCuenta();
   refrescar();
+  var fe = $('[data-form-envio]'); if (fe) formularioEnvio(fe);
   function paginas() {
     var pp = $('[data-perfil-lector]'); if (pp) paginaPerfil(pp);
     var ps = $('[data-solicitudes-autores]');
