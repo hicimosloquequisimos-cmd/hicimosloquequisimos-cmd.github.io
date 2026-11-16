@@ -10,12 +10,17 @@
   "bloques": [
     {
       "tipo": "envio",
+      "sobretitulo": "",
       "apariencia": null,
       "titulo": "Envía tu creación",
-      "texto": "Recibimos poesía, cuento, formas híbridas, ensayo y crónica. Escribe al correo de la gaceta con el asunto **ENVÍO | GÉNERO | TÍTULO**.\n\nEl botón abre tu correo con la plantilla lista.",
+      "bajada": "",
+      "lado": null,
+      "texto": "Recibimos poesía, cuento, formas híbridas y toda forma de expresión que se te ocurra. Escribe al correo de la gaceta con los documentos necesarios o dale al siguiente botón.\n\nEl botón te lleva a un formulario para hacer el proceso directamente desde ahí.",
       "requisitos": [
         {
-          "item": "La obra, anónima (sin tu nombre dentro del archivo)."
+          "item": "La obra, anónima (sin tu nombre dentro del archivo).",
+          "archivo": "",
+          "boton": "Descargar plantilla"
         },
         {
           "item": "Ficha de autor: datos, biografía, uso de IA y/o créditos.",
@@ -28,22 +33,29 @@
           "boton": "Descargar la licencia (Word)"
         },
         {
-          "item": "Nota de obra (opcional, máximo 150 palabras)."
+          "item": "Nota de obra (opcional, máximo 150 palabras).",
+          "archivo": "",
+          "boton": "Descargar plantilla"
         }
       ],
       "boton": "Envía tu creación"
     },
     {
       "tipo": "ruta",
+      "sobretitulo": "",
       "apariencia": {
         "fondo": "ficha",
-        "espacio": "normal",
+        "espacio_arriba": "3",
+        "espacio_abajo": "3",
         "ancho": "normal",
         "alineacion": "izquierda",
         "ancla": "",
-        "oculto": false
+        "oculto": false,
+        "espacio": "normal"
       },
       "titulo": "Qué pasa con tu texto",
+      "bajada": "",
+      "lado": null,
       "nota": "el editor propone, el autor decide qué enmiendas acepta",
       "pasos": [
         {
@@ -66,8 +78,11 @@
     },
     {
       "tipo": "preguntas",
+      "sobretitulo": "",
       "apariencia": null,
       "titulo": "Preguntas frecuentes",
+      "bajada": "",
+      "lado": null,
       "items": [
         {
           "pregunta": "¿Quién puede enviar?",
