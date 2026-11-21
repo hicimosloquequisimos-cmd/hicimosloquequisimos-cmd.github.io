@@ -2,7 +2,9 @@
   "titulo": "Tu mirada",
   "estado": "publicada",
   "coleccion": "poesia",
-  "autores": [],
+  "autores": [
+    "natalia-carvajal-avila"
+  ],
   "autor_texto": "",
   "codigo": "HLQQ-007",
   "fecha_publicacion": "2026-11-20",
