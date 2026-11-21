@@ -44,7 +44,7 @@
       "coleccion": "",
       "etiqueta": "",
       "cantidad": 6,
-      "destacadas": false,
+      "destacadas": true,
       "orden": "codigo",
       "ver_todo": true
     },
